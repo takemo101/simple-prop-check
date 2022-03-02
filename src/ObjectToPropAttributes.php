@@ -58,30 +58,20 @@ final class ObjectToPropAttributes
         ReflectionProperty $reflection,
     ): ?PropAttribute {
         /**
-         * @var Validatable<mixed>[]
-         */
-        $validatables = [];
-
-        /**
          * @var ExceptionFactory
          */
         $exception = null;
 
         $reflection->setAccessible(true);
-        $attributes = $reflection->getAttributes(PropCheckMarker::class, ReflectionAttribute::IS_INSTANCEOF);
 
         $name = $reflection->getName();
         $data = $reflection->getValue($this->object);
 
-        foreach ($attributes as $attribute) {
-            $instance = $attribute->newInstance();
+        // get validatables
+        $validatables = $this->createValidatables($reflection);
 
-            if ($instance instanceof Validatable) {
-                $validatables[] = $instance;
-            } else if ($instance instanceof ExceptionFactory) {
-                $exception = $instance;
-            }
-        }
+        // get exception factory
+        $exception = $this->createExceptionFactory($reflection);
 
         return count($validatables) ? new PropAttribute(
             $name,
@@ -89,6 +79,52 @@ final class ObjectToPropAttributes
             $validatables,
             $exception,
         ) : null;
+    }
+
+    /**
+     * create validatable array
+     *
+     * @param ReflectionProperty $reflection
+     * @return Validatable<mixed>[]
+     */
+    private function createValidatables(ReflectionProperty $reflection): array
+    {
+        /**
+         * @var Validatable<mixed>[]
+         */
+        $result = [];
+
+        $attributes = $reflection->getAttributes(Validatable::class, ReflectionAttribute::IS_INSTANCEOF);
+
+        foreach ($attributes as $attribute) {
+
+            $result[] = $attribute->newInstance();
+        }
+
+        return $result;
+    }
+
+    /**
+     * create exception factory array
+     *
+     * @param ReflectionProperty $reflection
+     * @return ExceptionFactory|null
+     */
+    private function createExceptionFactory(ReflectionProperty $reflection): ?ExceptionFactory
+    {
+        /**
+         * @var ExceptionFactory|null
+         */
+        $result = null;
+
+        $attributes = $reflection->getAttributes(ExceptionFactory::class, ReflectionAttribute::IS_INSTANCEOF);
+
+        foreach ($attributes as $attribute) {
+
+            $result = $attribute->newInstance();
+        }
+
+        return $result;
     }
 
     /**
