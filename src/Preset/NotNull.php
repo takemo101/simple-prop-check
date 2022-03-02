@@ -8,7 +8,7 @@ use Attribute;
 /**
  * @extends AbstractValidatable<mixed>
  */
-#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY)]
 class NotNull extends AbstractValidatable
 {
     /**

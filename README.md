@@ -1,2 +1,238 @@
-# simple-prop-check
-The Simple Prop Check is a simple property validator.
+# The Simple Prop Check
+The Simple Prop Check is a simple property validator.   
+Enjoy!
+
+## Installation
+Execute the following composer command.
+```
+composer require takemo101/simple-prop-check
+```
+
+## How to use
+Please use as follows
+
+### PHP Attribute
+Validate properties using PHP's Attribute feature.
+```php
+<?php
+
+use Takemo101\SimplePropCheck\PropCheckerFactory;
+use Takemo101\SimplePropCheck\Preset\String\ {
+    Email,
+    Between,
+    Pattern,
+};
+use Takemo101\SimplePropCheck\Preset\Numeric\Min;
+use Takemo101\SimplePropCheck\Preset\NotEmpty;
+
+/**
+ * You can check the value by setting Attribute to the property of the class.
+ */
+class Test
+{
+    #[Email]
+    public static string $email = 'xxx@example.com',
+
+    public function __construct(
+        #[Between(1, 10)]
+        private string $between,
+        // Exception message can also be set.
+        #[Pattern('/[a]+/', 'not match')]
+        private string $pattern,
+        #[Min(3)]
+        private integer $min,
+        #[NotEmpty]
+        private $notEmpty = null,
+    ) {
+        //
+    }
+}
+
+$test = new Test(
+    'hello',
+    'are',
+    4,
+);
+
+// Validate the property by passing the object to the check method.
+// The result is true or false.
+$result = PropCheckerFactory::check($test); // $result == false
+
+//　By passing an object to the exception method, the validation result will be returned as an exception.
+PropCheckerFactory::exception($test); // throw exception
+
+```
+### Property Attribute provided
+The following Attribute class is available.
+
+| attribute class | detail |
+| - | - |
+| Takemo101\SimplePropCheck\Preset\String\URL | Validate URL string |
+| Takemo101\SimplePropCheck\Preset\String\Email | Validate the email address string |
+| Takemo101\SimplePropCheck\Preset\String\LengthBetween | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\LengthMax | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\LengthMin | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\Pattern | Validate regular expressions |
+| Takemo101\SimplePropCheck\Preset\Array\SizeBetween | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\SizeMax | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\SizeMin | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\Unique | Verify array duplication |
+| Takemo101\SimplePropCheck\Preset\Numeric\Between | Verify the range of numbers |
+| Takemo101\SimplePropCheck\Preset\Numeric\Max | Verify the range of numbers |
+| Takemo101\SimplePropCheck\Preset\Numeric\Min | Verify the range of numbers |
+| Takemo101\SimplePropCheck\Preset\Numeric\Negative | Validate negative numbers |
+| Takemo101\SimplePropCheck\Preset\Numeric\Positive | Validate positive numbers |
+| Takemo101\SimplePropCheck\Preset\NotNull | Validate null value |
+| Takemo101\SimplePropCheck\Preset\NotEmpty | Validate empty value |
+
+## Customize
+You can customize the Attribute class etc.
+
+### How to customize Property Attribute
+First, create an Attribute class that implements AbstractValidatable or Validatable.
+
+```php
+<?php
+
+use Takemo101\SimplePropCheck\AbstractValidatable;
+
+/**
+ * Implement the AbstractValidatable class by extending it,
+ * or implement the Validatable interface.
+ * 
+ * @extends AbstractValidatable<string>
+ */
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class MatchText extends AbstractValidatable
+{
+    /**
+     * constructor
+     *
+     * @param string|null $message
+     */
+    public function __construct(
+        private ?string $message = null,
+    ) {
+        //
+    }
+
+    /**
+     * Verify the value of $data with the verify method.
+     * Returns true if the value is not invalid.
+     *
+     * @param string $data
+     * @return boolean returns true if the data is OK
+     */
+    public function verify($data): bool
+    {
+        return $data == $this->text;
+    }
+
+    /**
+     * Returns an error message if the value of the property is incorrect
+     *
+     * @return string
+     */
+    public function message(): string
+    {
+        // You can use the value set by the parameters method in the error message as a placeholder.
+        return $this->message ?? "data dose not match :text";
+    }
+
+    /**
+     * Returns the value available in the error message placeholder.
+     *
+     * @return array<string,mixed>
+     */
+    public function parameters(): array
+    {
+        return [
+            'text' => $this->text, // The placeholder will be ':text'
+        ];
+    }
+
+    /**
+     * Return whether the value of the property is verifiable.
+     * Basically check the value type.
+     *
+     * @param mixed $data
+     * @return bool
+     */
+    public function isValid($data): bool
+    {
+        return is_string($data);
+    }
+
+}
+```
+Use the created Attribute class as follows.
+```php
+<?php
+
+class Test
+{
+    public function __construct(
+        #[MatchText('hello')]
+        private string $hello,
+    ) {
+        //
+    }
+}
+
+$test = new Test('hi');
+$result = PropCheckerFactory::check($test); // $result == false
+
+$test = new Test('hello');
+$result = PropCheckerFactory::check($test); // $result == true
+
+```
+
+### How to customize Exception Attribute
+First, create an Attribute class that implements AbstractException or ExceptionFactory.
+
+```php
+<?php
+
+use Throwable;
+use LogicException;
+use Takemo101\SimplePropCheck\Exception\AbstractException;
+
+/**
+ * Implement the AbstractException class by extending it,
+ * or implement the ExceptionFactory interface.
+ */
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class TestException extends AbstractException
+{
+    /**
+     * Generate an exception in the factory method and return.
+     *
+     * @param string $message
+     * @return Throwable
+     */
+    public function factory(string $message): Throwable
+    {
+        return new LogicException("property logic error: {$message}");
+    }
+}
+```
+Use the created Attribute class as follows.
+```php
+<?php
+
+class Test
+{
+    public function __construct(
+        // You can set an exception to throw for the property you want to validate.
+        #[MatchText('hello')]
+        #[TestException]
+        private string $hello,
+    ) {
+        //
+    }
+}
+
+$test = new Test('hi');
+PropCheckerFactory::exception($test); // throw LogicException
+
+```
