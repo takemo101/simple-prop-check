@@ -4,7 +4,7 @@ namespace Takemo101\SimplePropCheck\Preset\Numeric;
 
 use Attribute;
 
-#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY)]
 class Between extends NumericValidatable
 {
 

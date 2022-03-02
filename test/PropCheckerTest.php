@@ -96,6 +96,23 @@ class PropCheckerTest extends TestCase
             $this->assertEquals('property logic error: not_match', $e->getMessage());
         }
     }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__messageAnalyser__OK()
+    {
+        $checker = PropCheckerFactory::factory(new TestObject(
+            "aa",
+            "c",
+            "c",
+        ));
+        try {
+            $checker->checkWithException();
+        } catch (DomainException $e) {
+            $this->assertEquals('property data error: not_match 1', $e->getMessage());
+        }
+    }
 }
 
 /**
@@ -115,7 +132,7 @@ class TestObject
         #[TestException]
         private string $b,
         #[NotEmpty]
-        #[LengthMin(0, false)]
+        #[LengthMin(1, false, "not_match :min")]
         public $c,
     ) {
         //

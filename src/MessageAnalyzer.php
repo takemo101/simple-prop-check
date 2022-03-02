@@ -41,9 +41,12 @@ final class MessageAnalyzer
     public function analyze(string $message, array $parameters): string
     {
         foreach ($parameters as $key => $data) {
-            if (is_string($data) || is_array($data)) {
-                $message = str_replace("{$this->prefix}{$key}", $data, $message);
+
+            if (!is_array($data)) {
+                $data = strval($data);
             }
+
+            $message = str_replace("{$this->prefix}{$key}", $data, $message);
         }
 
         return $message;
