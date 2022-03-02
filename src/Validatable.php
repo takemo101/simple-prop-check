@@ -30,7 +30,7 @@ interface Validatable
      * @param mixed $data
      * @return bool
      */
-    public function isValidData($data): bool;
+    public function isValid($data): bool;
 
     /**
      * get validate parameters

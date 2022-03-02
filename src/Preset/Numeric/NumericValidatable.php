@@ -15,7 +15,7 @@ abstract class NumericValidatable extends AbstractValidatable
      * @param mixed $data
      * @return bool
      */
-    public function isValidData($data): bool
+    public function isValid($data): bool
     {
         return is_integer($data) || is_float($data);
     }

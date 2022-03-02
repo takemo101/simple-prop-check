@@ -15,7 +15,7 @@ abstract class StringValidatable extends AbstractValidatable
      * @param mixed $data
      * @return bool
      */
-    public function isValidData($data): bool
+    public function isValid($data): bool
     {
         return is_string($data);
     }

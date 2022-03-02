@@ -15,7 +15,7 @@ abstract class ArrayValidatable extends AbstractValidatable
      * @param mixed $data
      * @return bool
      */
-    public function isValidData($data): bool
+    public function isValid($data): bool
     {
         return is_array($data);
     }

@@ -80,7 +80,7 @@ final class PropAttribute
     {
         foreach ($this->validatables as $validatable) {
 
-            if (!$validatable->isValidData($this->data)) {
+            if (!$validatable->isValid($this->data)) {
                 throw new InvalidArgumentException('validatable data error: data cannot be verified');
             }
 
