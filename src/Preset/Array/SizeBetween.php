@@ -41,7 +41,7 @@ class SizeBetween extends ArrayValidatable
      */
     public function message(): string
     {
-        return $this->message ?? "data size is not between :min and :max";
+        return $this->message ?? "[$:property] data size is not between :min and :max";
     }
 
     /**

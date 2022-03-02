@@ -7,7 +7,7 @@ namespace Takemo101\SimplePropCheck;
  *
  * @template T
  */
-interface Validatable
+interface Validatable extends PropCheckMarker
 {
     /**
      * validate the data of the property

@@ -68,7 +68,7 @@ final class ObjectToPropAttributes
         $exception = null;
 
         $reflection->setAccessible(true);
-        $attributes = $reflection->getAttributes();
+        $attributes = $reflection->getAttributes(PropCheckMarker::class, ReflectionAttribute::IS_INSTANCEOF);
 
         $name = $reflection->getName();
         $data = $reflection->getValue($this->object);

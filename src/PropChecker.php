@@ -59,7 +59,10 @@ final class PropChecker
 
                 $message = $this->analyzer->analyze(
                     $validatable->message(),
-                    $validatable->placeholders(),
+                    [
+                        'property' => $prop->getPropertyName(),
+                        ...$validatable->placeholders(),
+                    ]
                 );
 
                 throw $this->createException(

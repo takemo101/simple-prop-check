@@ -41,8 +41,8 @@ class Max extends NumericValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "data is greater than :max"
-            : "data is greater than or equal to :max"
+            ? "[$:property] data is greater than :max"
+            : "[$:property] data is greater than or equal to :max"
         );
     }
 

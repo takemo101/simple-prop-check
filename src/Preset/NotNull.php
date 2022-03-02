@@ -40,6 +40,6 @@ class NotNull extends AbstractValidatable
      */
     public function message(): string
     {
-        return $this->message ?? 'data is null';
+        return $this->message ?? '[$:property] data is null';
     }
 }

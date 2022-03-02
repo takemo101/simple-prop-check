@@ -37,6 +37,6 @@ class Unique extends ArrayValidatable
      */
     public function message(): string
     {
-        return $this->message ?? "array data is not a unique";
+        return $this->message ?? "[$:property] array data is not a unique";
     }
 }

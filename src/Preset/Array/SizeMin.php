@@ -42,8 +42,8 @@ class SizeMin extends ArrayValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "data size is less than or equal to :min"
-            : "data size is less than :min"
+            ? "[$:property] data size is less than or equal to :min"
+            : "[$:property] data size is less than :min"
         );
     }
 

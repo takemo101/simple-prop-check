@@ -2,12 +2,13 @@
 
 namespace Takemo101\SimplePropCheck\Exception;
 
+use Takemo101\SimplePropCheck\PropCheckMarker;
 use Throwable;
 
 /**
  * exception factory interface
  */
-interface ExceptionFactory extends CopyInterface
+interface ExceptionFactory extends CopyInterface, PropCheckMarker
 {
     /**
      * factory method

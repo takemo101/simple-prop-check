@@ -42,7 +42,7 @@ class LengthBetween extends StringValidatable
      */
     public function message(): string
     {
-        return $this->message ?? "character length of the data is not between :min and :max";
+        return $this->message ?? "character length of the [$:property] data is not between :min and :max";
     }
 
     /**
