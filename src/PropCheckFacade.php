@@ -9,9 +9,9 @@ use Takemo101\SimplePropCheck\Exception\{
 use Throwable;
 
 /**
- * property checker factory class
+ * property check facade class
  */
-final class PropCheckerFactory
+final class PropCheckFacade
 {
     /**
      * @var ExceptionFactory|null

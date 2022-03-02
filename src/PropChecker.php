@@ -59,7 +59,7 @@ final class PropChecker
 
                 $message = $this->analyzer->analyze(
                     $validatable->message(),
-                    $validatable->parameters(),
+                    $validatable->placeholders(),
                 );
 
                 throw $this->createException(

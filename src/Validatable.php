@@ -33,9 +33,9 @@ interface Validatable
     public function isValid($data): bool;
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array;
+    public function placeholders(): array;
 }

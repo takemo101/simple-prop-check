@@ -48,11 +48,11 @@ class SizeMin extends ArrayValidatable
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'min' => $this->min,

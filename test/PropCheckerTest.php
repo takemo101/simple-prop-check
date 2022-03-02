@@ -3,7 +3,7 @@
 namespace Test;
 
 use PHPUnit\Framework\TestCase;
-use Takemo101\SimplePropCheck\PropCheckerFactory;
+use Takemo101\SimplePropCheck\PropCheckFacade;
 use Takemo101\SimplePropCheck\Exception\AbstractException;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
 use Takemo101\SimplePropCheck\Preset\String\{
@@ -27,7 +27,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             "cc",
@@ -42,7 +42,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             "",
@@ -57,7 +57,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             1,
@@ -72,7 +72,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(LogicException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "",
             "ccc",
@@ -85,7 +85,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__exceptionMessage__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "ccd",
             "c",
             "ccc",
@@ -102,7 +102,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__messageAnalyser__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "c",
             "c",

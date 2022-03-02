@@ -47,11 +47,11 @@ class Max extends NumericValidatable
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'max' => $this->max,

@@ -35,12 +35,12 @@ final class MessageAnalyzer
      * exception message analyze
      *
      * @param string $message
-     * @param array<string,mixed> $parameters
+     * @param array<string,mixed> $placeholders
      * @return string
      */
-    public function analyze(string $message, array $parameters): string
+    public function analyze(string $message, array $placeholders): string
     {
-        foreach ($parameters as $key => $data) {
+        foreach ($placeholders as $key => $data) {
 
             if (!is_array($data)) {
                 $data = strval($data);
