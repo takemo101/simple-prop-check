@@ -1,0 +1,41 @@
+{
+    "name": "takemo101/simple-prop-check",
+    "description": "Simple Prop Check",
+    "keywords": [
+        "php",
+        "package",
+        "attribute",
+        "validation"
+    ],
+    "authors": [
+        {
+            "name": "takemo101",
+            "email": "takemo101@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/takemo101/simple-prop-check",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Takemo101\\SimplePropCheck\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "test/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "php": "^8.0",
+        "phpunit/phpunit": "^9.5"
+    }
+}
