@@ -59,7 +59,7 @@ $test = new Test(
 $result = PropCheckFacade::check($test); // $result == false
 
 //　By passing an object to the exception method, the validation result will be returned as an exception.
-PropCheckFacade::exception($test); // throw exception
+PropCheckFacade::checkWithException($test); // throw exception
 
 ```
 ### Property Attribute provided
@@ -233,6 +233,72 @@ class Test
 }
 
 $test = new Test('hi');
-PropCheckFacade::exception($test); // throw LogicException
+PropCheckFacade::checkWithException($test); // throw LogicException
+
+```
+
+## About the Effect class
+The Effect attribute allows you to apply a validation effect to the property of interest.
+```php
+<?php
+
+use Takemo101\SimplePropCheck\Preset\NotEmpty;
+use Takemo101\SimplePropCheck\Effect;
+
+class First
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+        // Validate the object.
+        #[Effect]
+        private Second $second,
+    ) {}
+}
+
+class Second
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+        // Apply validation to object array.
+        #[Effect]
+        private array $third,
+
+    ) {}
+}
+
+class Third
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+    ) {}
+}
+
+$first = new First(
+    'text',
+    new Second(
+        'text',
+        [
+            new Third(
+                'text',
+            ),
+            new Third(
+                'text',
+            ),
+            // Invalid validation of this object
+            new Third(
+                '',
+            ),
+        ],
+    ),
+);
+
+// When using Effect, use effect method
+$result = PropCheckFacade::effect($test); // $result == false
+
+// Use effectkWithException method to raise an exception
+PropCheckFacade::effectWithException($test); // throw exception
 
 ```

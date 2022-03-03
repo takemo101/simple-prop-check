@@ -3,9 +3,13 @@
 namespace Test;
 
 use PHPUnit\Framework\TestCase;
-use Takemo101\SimplePropCheck\PropCheckFacade;
+use Takemo101\SimplePropCheck\{
+    PropCheckFacade,
+    Effect,
+};
 use Takemo101\SimplePropCheck\Exception\AbstractException;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
+use Takemo101\SimplePropCheck\Preset\Numeric\Max;
 use Takemo101\SimplePropCheck\Preset\String\{
     Pattern,
     LengthMin,
@@ -112,6 +116,98 @@ class PropCheckerTest extends TestCase
         } catch (DomainException $e) {
             $this->assertEquals('property data error: [$c] not_match 1', $e->getMessage());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__effect__OK()
+    {
+        $checker = PropCheckFacade::factory(new FirstObject(
+            "aa",
+            new SecondObject(
+                'a',
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+            ),
+            [],
+        ));
+
+        $this->assertTrue($checker->check());
+    }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__effect__NG()
+    {
+        $this->expectException(DomainException::class);
+
+        PropCheckFacade::effectWithException(new FirstObject(
+            "aa",
+            new SecondObject(
+                'a',
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+            ),
+            [
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+                new ThirdObject(
+                    'a',
+                    0,
+                ),
+            ],
+        ));
+    }
+}
+
+class FirstObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[Effect]
+        private SecondObject $b,
+        #[Effect]
+        private array $c,
+    ) {
+        //
+    }
+}
+
+class SecondObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[Effect]
+        private ThirdObject $b,
+    ) {
+        //
+    }
+}
+
+class ThirdObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[NotEmpty]
+        #[Max(100)]
+        private int $b,
+    ) {
+        //
     }
 }
 

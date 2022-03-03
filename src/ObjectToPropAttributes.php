@@ -8,7 +8,7 @@ use ReflectionProperty;
 use ReflectionClass;
 
 /**
- * object to PropAttribute array transform class
+ * convert from an object to a PropAttribute array
  */
 final class ObjectToPropAttributes
 {
@@ -49,7 +49,7 @@ final class ObjectToPropAttributes
     }
 
     /**
-     * to prop attribute
+     * create PropAttribute
      *
      * @param ReflectionProperty $reflection
      * @return PropAttribute|null
@@ -82,7 +82,7 @@ final class ObjectToPropAttributes
     }
 
     /**
-     * create validatable array
+     * create a Validatable array
      *
      * @param ReflectionProperty $reflection
      * @return Validatable<mixed>[]
@@ -105,7 +105,7 @@ final class ObjectToPropAttributes
     }
 
     /**
-     * create exception factory array
+     * create ExceptionFactory
      *
      * @param ReflectionProperty $reflection
      * @return ExceptionFactory|null

@@ -27,7 +27,7 @@ final class PropCheckFacade
     }
 
     /**
-     * check
+     * checks
      *
      * @param object $object
      * @return boolean
@@ -38,15 +38,38 @@ final class PropCheckFacade
     }
 
     /**
-     * check with exception
+     * checks and effects
+     *
+     * @param object $object
+     * @return boolean
+     */
+    public static function effect(object $object): bool
+    {
+        return self::factory($object)->effect();
+    }
+
+    /**
+     * check with throw exception
      *
      * @param object $object
      * @return void
      * @throws Throwable
      */
-    public static function exception(object $object): void
+    public static function checkWithException(object $object): void
     {
         self::factory($object)->checkWithException();
+    }
+
+    /**
+     * checks and effect with throw exception
+     *
+     * @param object $object
+     * @return void
+     * @throws Throwable
+     */
+    public static function effectWithException(object $object): void
+    {
+        self::factory($object)->effectWithException();
     }
 
     /**

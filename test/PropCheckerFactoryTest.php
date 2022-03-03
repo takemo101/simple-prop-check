@@ -35,7 +35,7 @@ class PropCheckFacadeTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        PropCheckFacade::exception(new FactoryTestObject(
+        PropCheckFacade::checkWithException(new FactoryTestObject(
             "",
             "",
         ));
