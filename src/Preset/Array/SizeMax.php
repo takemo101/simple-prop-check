@@ -42,17 +42,17 @@ class SizeMax extends ArrayValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "data size is greater than :max"
-            : "data size is greater than or equal to :max"
+            ? "[$:property] data size is greater than :max"
+            : "[$:property] data size is greater than or equal to :max"
         );
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'max' => $this->max,

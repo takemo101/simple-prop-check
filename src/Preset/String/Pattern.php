@@ -39,15 +39,15 @@ class Pattern extends StringValidatable
      */
     public function message(): string
     {
-        return $this->message ?? "data is not match pattern :pattern";
+        return $this->message ?? "[$:property] data is not match pattern :pattern";
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'pattern' => $this->pattern,

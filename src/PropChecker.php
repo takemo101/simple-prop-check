@@ -25,7 +25,7 @@ final class PropChecker
     }
 
     /**
-     * check
+     * checks
      *
      * @return boolean true if the property is OK
      */
@@ -36,6 +36,32 @@ final class PropChecker
         foreach ($props as $prop) {
 
             if ($prop->verify()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * checks and effects
+     *
+     * @return boolean true if the property is OK
+     */
+    public function effect(): bool
+    {
+        if (!$this->check()) {
+            return false;
+        }
+
+        $objects = ObjectToEffectObjects::toArray($this->object);
+
+        foreach ($objects as $object) {
+            if (!(new self(
+                $object,
+                $this->analyzer,
+                $this->factory,
+            ))->effect()) {
                 return false;
             }
         }
@@ -57,9 +83,12 @@ final class PropChecker
 
             if ($validatable = $prop->verify()) {
 
+                $placeholders = $validatable->placeholders();
+                $placeholders['property'] = $prop->getPropertyName();
+
                 $message = $this->analyzer->analyze(
                     $validatable->message(),
-                    $validatable->parameters(),
+                    $placeholders,
                 );
 
                 throw $this->createException(
@@ -71,7 +100,28 @@ final class PropChecker
     }
 
     /**
-     * create exception
+     * checks and effects with throw exception
+     *
+     * @return void
+     * @throws Throwable
+     */
+    public function effectWithException(): void
+    {
+        $this->checkWithException();
+
+        $objects = ObjectToEffectObjects::toArray($this->object);
+
+        foreach ($objects as $object) {
+            (new self(
+                $object,
+                $this->analyzer,
+                $this->factory,
+            ))->effectWithException();
+        }
+    }
+
+    /**
+     * create Exception
      *
      * @param ExceptionFactory|null $factory
      * @return Throwable

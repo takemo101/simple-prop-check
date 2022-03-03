@@ -9,9 +9,9 @@ use Takemo101\SimplePropCheck\Exception\{
 use Throwable;
 
 /**
- * property checker factory class
+ * property check facade class
  */
-final class PropCheckerFactory
+final class PropCheckFacade
 {
     /**
      * @var ExceptionFactory|null
@@ -27,7 +27,7 @@ final class PropCheckerFactory
     }
 
     /**
-     * check
+     * checks
      *
      * @param object $object
      * @return boolean
@@ -38,15 +38,38 @@ final class PropCheckerFactory
     }
 
     /**
-     * check with exception
+     * checks and effects
+     *
+     * @param object $object
+     * @return boolean
+     */
+    public static function effect(object $object): bool
+    {
+        return self::factory($object)->effect();
+    }
+
+    /**
+     * check with throw exception
      *
      * @param object $object
      * @return void
      * @throws Throwable
      */
-    public static function exception(object $object): void
+    public static function checkWithException(object $object): void
     {
         self::factory($object)->checkWithException();
+    }
+
+    /**
+     * checks and effect with throw exception
+     *
+     * @param object $object
+     * @return void
+     * @throws Throwable
+     */
+    public static function effectWithException(object $object): void
+    {
+        self::factory($object)->effectWithException();
     }
 
     /**

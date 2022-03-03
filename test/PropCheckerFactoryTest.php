@@ -3,7 +3,7 @@
 namespace Test;
 
 use PHPUnit\Framework\TestCase;
-use Takemo101\SimplePropCheck\PropCheckerFactory;
+use Takemo101\SimplePropCheck\PropCheckFacade;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
 
 use DomainException;
@@ -11,18 +11,18 @@ use DomainException;
 /**
  * prop checker test
  */
-class PropCheckerFactoryTest extends TestCase
+class PropCheckFacadeTest extends TestCase
 {
     /**
      * @test
      */
     public function factoryCheck()
     {
-        $this->assertTrue(PropCheckerFactory::check(new FactoryTestObject(
+        $this->assertTrue(PropCheckFacade::check(new FactoryTestObject(
             "",
             "b",
         )));
-        $this->assertFalse(PropCheckerFactory::check(new FactoryTestObject(
+        $this->assertFalse(PropCheckFacade::check(new FactoryTestObject(
             "",
             "",
         )));
@@ -35,7 +35,7 @@ class PropCheckerFactoryTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        PropCheckerFactory::exception(new FactoryTestObject(
+        PropCheckFacade::checkWithException(new FactoryTestObject(
             "",
             "",
         ));

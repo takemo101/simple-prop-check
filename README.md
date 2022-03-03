@@ -16,7 +16,7 @@ Validate properties using PHP's Attribute feature.
 ```php
 <?php
 
-use Takemo101\SimplePropCheck\PropCheckerFactory;
+use Takemo101\SimplePropCheck\PropCheckFacade;
 use Takemo101\SimplePropCheck\Preset\String\ {
     Email,
     Between,
@@ -56,10 +56,10 @@ $test = new Test(
 
 // Validate the property by passing the object to the check method.
 // The result is true or false.
-$result = PropCheckerFactory::check($test); // $result == false
+$result = PropCheckFacade::check($test); // $result == false
 
 //　By passing an object to the exception method, the validation result will be returned as an exception.
-PropCheckerFactory::exception($test); // throw exception
+PropCheckFacade::checkWithException($test); // throw exception
 
 ```
 ### Property Attribute provided
@@ -135,7 +135,7 @@ class MatchText extends AbstractValidatable
      */
     public function message(): string
     {
-        // You can use the value set by the parameters method in the error message as a placeholder.
+        // You can use the value set by the placeholders method in the error message as a placeholder.
         return $this->message ?? "data dose not match :text";
     }
 
@@ -144,7 +144,7 @@ class MatchText extends AbstractValidatable
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'text' => $this->text, // The placeholder will be ':text'
@@ -180,10 +180,10 @@ class Test
 }
 
 $test = new Test('hi');
-$result = PropCheckerFactory::check($test); // $result == false
+$result = PropCheckFacade::check($test); // $result == false
 
 $test = new Test('hello');
-$result = PropCheckerFactory::check($test); // $result == true
+$result = PropCheckFacade::check($test); // $result == true
 
 ```
 
@@ -233,6 +233,72 @@ class Test
 }
 
 $test = new Test('hi');
-PropCheckerFactory::exception($test); // throw LogicException
+PropCheckFacade::checkWithException($test); // throw LogicException
+
+```
+
+## About the Effect class
+The Effect attribute allows you to apply a validation effect to the property of interest.
+```php
+<?php
+
+use Takemo101\SimplePropCheck\Preset\NotEmpty;
+use Takemo101\SimplePropCheck\Effect;
+
+class First
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+        // Validate the object.
+        #[Effect]
+        private Second $second,
+    ) {}
+}
+
+class Second
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+        // Apply validation to object array.
+        #[Effect]
+        private array $third,
+
+    ) {}
+}
+
+class Third
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+    ) {}
+}
+
+$first = new First(
+    'text',
+    new Second(
+        'text',
+        [
+            new Third(
+                'text',
+            ),
+            new Third(
+                'text',
+            ),
+            // Invalid validation of this object
+            new Third(
+                '',
+            ),
+        ],
+    ),
+);
+
+// When using Effect, use effect method
+$result = PropCheckFacade::effect($test); // $result == false
+
+// Use effectkWithException method to raise an exception
+PropCheckFacade::effectWithException($test); // throw exception
 
 ```

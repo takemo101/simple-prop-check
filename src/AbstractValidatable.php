@@ -32,11 +32,11 @@ abstract class AbstractValidatable implements Validatable
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             //

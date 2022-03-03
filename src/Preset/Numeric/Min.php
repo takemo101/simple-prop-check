@@ -41,17 +41,17 @@ class Min extends NumericValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "data is less than or equal to :min"
-            : "data is less than :min"
+            ? "[$:property] data is less than or equal to :min"
+            : "[$:property] data is less than :min"
         );
     }
 
     /**
-     * get validate parameters
+     * get validate placeholders
      *
      * @return array<string,mixed>
      */
-    public function parameters(): array
+    public function placeholders(): array
     {
         return [
             'min' => $this->min,

@@ -3,9 +3,13 @@
 namespace Test;
 
 use PHPUnit\Framework\TestCase;
-use Takemo101\SimplePropCheck\PropCheckerFactory;
+use Takemo101\SimplePropCheck\{
+    PropCheckFacade,
+    Effect,
+};
 use Takemo101\SimplePropCheck\Exception\AbstractException;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
+use Takemo101\SimplePropCheck\Preset\Numeric\Max;
 use Takemo101\SimplePropCheck\Preset\String\{
     Pattern,
     LengthMin,
@@ -27,7 +31,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             "cc",
@@ -42,7 +46,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             "",
@@ -57,7 +61,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "b",
             1,
@@ -72,7 +76,7 @@ class PropCheckerTest extends TestCase
     {
         $this->expectException(LogicException::class);
 
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "",
             "ccc",
@@ -85,7 +89,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__exceptionMessage__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "ccd",
             "c",
             "ccc",
@@ -102,7 +106,7 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__messageAnalyser__OK()
     {
-        $checker = PropCheckerFactory::factory(new TestObject(
+        $checker = PropCheckFacade::factory(new TestObject(
             "aa",
             "c",
             "c",
@@ -110,8 +114,100 @@ class PropCheckerTest extends TestCase
         try {
             $checker->checkWithException();
         } catch (DomainException $e) {
-            $this->assertEquals('property data error: not_match 1', $e->getMessage());
+            $this->assertEquals('property data error: [$c] not_match 1', $e->getMessage());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__effect__OK()
+    {
+        $checker = PropCheckFacade::factory(new FirstObject(
+            "aa",
+            new SecondObject(
+                'a',
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+            ),
+            [],
+        ));
+
+        $this->assertTrue($checker->check());
+    }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__effect__NG()
+    {
+        $this->expectException(DomainException::class);
+
+        PropCheckFacade::effectWithException(new FirstObject(
+            "aa",
+            new SecondObject(
+                'a',
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+            ),
+            [
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+                new ThirdObject(
+                    'a',
+                    0,
+                ),
+            ],
+        ));
+    }
+}
+
+class FirstObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[Effect]
+        private SecondObject $b,
+        #[Effect]
+        private array $c,
+    ) {
+        //
+    }
+}
+
+class SecondObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[Effect]
+        private ThirdObject $b,
+    ) {
+        //
+    }
+}
+
+class ThirdObject
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $a,
+        #[NotEmpty]
+        #[Max(100)]
+        private int $b,
+    ) {
+        //
     }
 }
 
@@ -132,7 +228,7 @@ class TestObject
         #[TestException]
         private string $b,
         #[NotEmpty]
-        #[LengthMin(1, false, "not_match :min")]
+        #[LengthMin(1, false, "[$:property] not_match :min")]
         public $c,
     ) {
         //
