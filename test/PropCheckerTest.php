@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Takemo101\SimplePropCheck\{
     PropCheckFacade,
     Effect,
+    AfterCall,
 };
 use Takemo101\SimplePropCheck\Exception\AbstractException;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
@@ -135,7 +136,7 @@ class PropCheckerTest extends TestCase
             [],
         ));
 
-        $this->assertTrue($checker->check());
+        $this->assertTrue($checker->effect());
     }
 
     /**
@@ -170,6 +171,35 @@ class PropCheckerTest extends TestCase
             ],
         ));
     }
+
+    /**
+     * @test
+     */
+    public function createPropChecker__afterCall__OK()
+    {
+        $third = new ThirdObject(
+            'a',
+            2,
+        );
+
+        PropCheckFacade::effect(new FirstObject(
+            "aa",
+            new SecondObject(
+                'a',
+                new ThirdObject(
+                    'a',
+                    1,
+                ),
+            ),
+            [
+                $third,
+                $third,
+                $third,
+            ],
+        ));
+
+        $this->assertEquals($third->increment, 6);
+    }
 }
 
 class FirstObject
@@ -198,8 +228,11 @@ class SecondObject
     }
 }
 
+#[AfterCall('valid')]
 class ThirdObject
 {
+    public int $increment = 0;
+
     public function __construct(
         #[NotEmpty]
         private string $a,
@@ -208,6 +241,11 @@ class ThirdObject
         private int $b,
     ) {
         //
+    }
+
+    private function valid()
+    {
+        $this->increment += $this->b;
     }
 }
 

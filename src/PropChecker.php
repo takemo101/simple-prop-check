@@ -40,6 +40,8 @@ final class PropChecker
             }
         }
 
+        CallMethod::toCall($this->object);
+
         return true;
     }
 
@@ -97,6 +99,8 @@ final class PropChecker
                 );
             }
         }
+
+        CallMethod::toCall($this->object);
     }
 
     /**
