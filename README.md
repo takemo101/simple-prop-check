@@ -169,6 +169,8 @@ Use the created Attribute class as follows.
 ```php
 <?php
 
+use Takemo101\SimplePropCheck\PropCheckFacade;
+
 class Test
 {
     public function __construct(
@@ -220,6 +222,8 @@ Use the created Attribute class as follows.
 ```php
 <?php
 
+use Takemo101\SimplePropCheck\PropCheckFacade;
+
 class Test
 {
     public function __construct(
@@ -243,7 +247,10 @@ The Effect attribute allows you to apply a validation effect to the property of 
 <?php
 
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
-use Takemo101\SimplePropCheck\Effect;
+use Takemo101\SimplePropCheck\ {
+    PropCheckFacade,
+    Effect,
+};
 
 class First
 {
