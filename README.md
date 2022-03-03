@@ -303,9 +303,9 @@ $first = new First(
 );
 
 // When using Effect, use effect method
-$result = PropCheckFacade::effect($test); // $result == false
+$result = PropCheckFacade::effect($first); // $result == false
 
 // Use effectkWithException method to raise an exception
-PropCheckFacade::effectWithException($test); // throw exception
+PropCheckFacade::effectWithException($first); // throw exception
 
 ```
