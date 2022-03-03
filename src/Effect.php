@@ -8,7 +8,7 @@ use Attribute;
  * property effect class
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Effect
+final class Effect
 {
     //
 }
