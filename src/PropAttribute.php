@@ -13,6 +13,7 @@ final class PropAttribute
     /**
      * constructor
      *
+     * @param string $className
      * @param string $propertyName
      * @param mixed $data
      * @param Validatable<mixed>[] $validatables
@@ -20,6 +21,7 @@ final class PropAttribute
      * @throws InvalidArgumentException
      */
     public function __construct(
+        private string $className,
         private string $propertyName,
         private mixed $data,
         private array $validatables,
@@ -31,13 +33,23 @@ final class PropAttribute
     }
 
     /**
-     * get name
+     * get property name
      *
      * @return string
      */
     public function getPropertyName(): string
     {
         return $this->propertyName;
+    }
+
+    /**
+     * get class name
+     *
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return $this->className;
     }
 
     /**

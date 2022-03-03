@@ -42,8 +42,8 @@ class LengthMin extends StringValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "[$:property] data character length is less than or equal to :min"
-            : "[$:property] data character length is less than :min"
+            ? "[:class::$:property] data character length is less than or equal to :min"
+            : "[:class::$:property] data character length is less than :min"
         );
     }
 

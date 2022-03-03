@@ -115,7 +115,7 @@ class PropCheckerTest extends TestCase
         try {
             $checker->checkWithException();
         } catch (DomainException $e) {
-            $this->assertEquals('property data error: [$c] not_match 1', $e->getMessage());
+            $this->assertEquals('property data error: [Test\TestObject::$c] not_match 1', $e->getMessage());
         }
     }
 
@@ -266,7 +266,7 @@ class TestObject
         #[TestException]
         private string $b,
         #[NotEmpty]
-        #[LengthMin(1, false, "[$:property] not_match :min")]
+        #[LengthMin(1, false, "[:class::$:property] not_match :min")]
         public $c,
     ) {
         //

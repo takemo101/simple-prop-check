@@ -52,10 +52,6 @@ final class PropChecker
      */
     public function effect(): bool
     {
-        if (!$this->check()) {
-            return false;
-        }
-
         $objects = ObjectToEffectObjects::toArray($this->object);
 
         foreach ($objects as $object) {
@@ -68,7 +64,7 @@ final class PropChecker
             }
         }
 
-        return true;
+        return $this->check();
     }
 
     /**
@@ -87,6 +83,7 @@ final class PropChecker
 
                 $placeholders = $validatable->placeholders();
                 $placeholders['property'] = $prop->getPropertyName();
+                $placeholders['class'] = $prop->getClassName();
 
                 $message = $this->analyzer->analyze(
                     $validatable->message(),
@@ -111,8 +108,6 @@ final class PropChecker
      */
     public function effectWithException(): void
     {
-        $this->checkWithException();
-
         $objects = ObjectToEffectObjects::toArray($this->object);
 
         foreach ($objects as $object) {
@@ -122,6 +117,8 @@ final class PropChecker
                 $this->factory,
             ))->effectWithException();
         }
+
+        $this->checkWithException();
     }
 
     /**
