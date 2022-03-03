@@ -31,12 +31,12 @@ final class CallMethod
     {
         $class = new ReflectionClass($this->object);
 
-        /**
-         * @var ReflectionAttribute|null
-         */
-        $attribute = current($class->getAttributes(AfterCall::class));
+        $attributes = $class->getAttributes(AfterCall::class);
 
-        if ($attribute) {
+        if (count($attributes)) {
+
+            $attribute = $attributes[0];
+
             /**
              * @var AfterCall
              */
