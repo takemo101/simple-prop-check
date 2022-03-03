@@ -42,8 +42,8 @@ class LengthMax extends StringValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "[$:property] data character length is greater than :max"
-            : "[$:property] data character length is greater than or equal to :max"
+            ? "[:class::$:property] data character length is greater than :max"
+            : "[:class::$:property] data character length is greater than or equal to :max"
         );
     }
 

@@ -36,6 +36,6 @@ class URL extends StringValidatable
      */
     public function message(): string
     {
-        return $this->message ?? "[$:property] data is data is not a url";
+        return $this->message ?? "[:class::$:property] data is data is not a url";
     }
 }

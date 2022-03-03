@@ -34,13 +34,13 @@ final class ObjectToPropAttributes
 
         $class = new ReflectionClass($this->object);
 
-        /**
-         * @var ReflectionProperty[]
-         */
         $reflections = $class->getProperties();
 
         foreach ($reflections as $reflection) {
-            if ($prop = $this->createPropAttributeFromReflectionProperty($reflection)) {
+            if ($prop = $this->createPropAttributeFromReflectionProperty(
+                $class->getName(),
+                $reflection,
+            )) {
                 $result[] = $prop;
             }
         }
@@ -51,10 +51,12 @@ final class ObjectToPropAttributes
     /**
      * create PropAttribute
      *
+     * @param string $className
      * @param ReflectionProperty $reflection
      * @return PropAttribute|null
      */
     private function createPropAttributeFromReflectionProperty(
+        string $className,
         ReflectionProperty $reflection,
     ): ?PropAttribute {
         /**
@@ -64,7 +66,7 @@ final class ObjectToPropAttributes
 
         $reflection->setAccessible(true);
 
-        $name = $reflection->getName();
+        $propertyName = $reflection->getName();
         $data = $reflection->getValue($this->object);
 
         // get validatables
@@ -74,7 +76,8 @@ final class ObjectToPropAttributes
         $exception = $this->createExceptionFactory($reflection);
 
         return count($validatables) ? new PropAttribute(
-            $name,
+            $className,
+            $propertyName,
             $data,
             $validatables,
             $exception,

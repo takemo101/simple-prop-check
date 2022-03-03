@@ -40,6 +40,6 @@ class NotEmpty extends AbstractValidatable
      */
     public function message(): string
     {
-        return $this->message ?? '[$:property] data is empty';
+        return $this->message ?? '[:class::$:property] data is empty';
     }
 }

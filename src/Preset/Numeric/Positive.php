@@ -39,8 +39,8 @@ class Positive extends NumericValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "[$:property] data is not a positive number including zero"
-            : "[$:property] data is not a positive number"
+            ? "[:class::$:property] data is not a positive number including zero"
+            : "[:class::$:property] data is not a positive number"
         );
     }
 }
