@@ -309,3 +309,42 @@ $result = PropCheckFacade::effect($first); // $result == false
 PropCheckFacade::effectWithException($first); // throw exception
 
 ```
+## About the AfterCall class
+The AfterCall attribute class allows you to set the method to be called after validating the value of the property.
+
+```php
+<?php
+
+use Takemo101\SimplePropCheck\Preset\NotEmpty;
+use Takemo101\SimplePropCheck\ {
+    PropCheckFacade,
+    AfterCall,
+};
+
+// Set the method name in the argument of AfterCall attribute class.
+#[AfterCall('print')]
+class CallClass
+{
+    public function __construct(
+        #[NotEmpty]
+        private string $text,
+    ) {}
+
+    private function print(): void
+    {
+        echo 'call';
+    }
+
+}
+
+$call = new CallClass('text');
+
+// If the value validation is successful, the specified method will be executed.
+$result = PropCheckFacade::check($call); // $result == true
+
+$call = new CallClass('');
+
+// If the value validation fails, the specified method will not be executed.
+$result = PropCheckFacade::check($call); // $result == false
+
+```
