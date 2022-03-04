@@ -5,7 +5,7 @@ namespace Takemo101\SimplePropCheck\Preset\Array;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class SizeMax extends ArrayValidatable
+class MaxSize extends ArrayValidatable
 {
     /**
      * constructor

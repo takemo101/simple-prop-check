@@ -1,11 +1,11 @@
 <?php
 
-namespace Takemo101\SimplePropCheck\Preset\String;
+namespace Takemo101\SimplePropCheck\Preset\Array;
 
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class LengthMin extends StringValidatable
+class MinSize extends ArrayValidatable
 {
     /**
      * constructor
@@ -25,13 +25,13 @@ class LengthMin extends StringValidatable
     /**
      * get validate the data of the property
      *
-     * @param string $data
+     * @param mixed[] $data
      * @return boolean returns true if the data is OK
      */
     public function verify($data): bool
     {
-        $length = mb_strlen($data);
-        return $this->equal ? $this->min <= $length : $this->min < $length;
+        $size = count($data);
+        return $this->equal ? $this->min <= $size : $this->min < $size;
     }
 
     /**
@@ -42,8 +42,8 @@ class LengthMin extends StringValidatable
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "[:class::$:property] data character length is less than or equal to :min"
-            : "[:class::$:property] data character length is less than :min"
+            ? "[:class::$:property] data size is less than or equal to :min"
+            : "[:class::$:property] data size is less than :min"
         );
     }
 

@@ -5,18 +5,19 @@ namespace Takemo101\SimplePropCheck\Preset\String;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class LengthMax extends StringValidatable
+class BetweenLength extends StringValidatable
 {
+
     /**
      * constructor
      *
+     * @param integer|float $min
      * @param integer|float $max
-     * @param boolean $equal
      * @param string|null $message
      */
     public function __construct(
+        private int|float $min,
         private int|float $max,
-        private bool $equal = true,
         private ?string $message = null,
     ) {
         //
@@ -31,7 +32,7 @@ class LengthMax extends StringValidatable
     public function verify($data): bool
     {
         $length = mb_strlen($data);
-        return $this->equal ? $this->max >= $length : $this->max > $length;
+        return $this->min <= $length && $this->max >= $length;
     }
 
     /**
@@ -41,10 +42,7 @@ class LengthMax extends StringValidatable
      */
     public function message(): string
     {
-        return $this->message ?? ($this->equal
-            ? "[:class::$:property] data character length is greater than :max"
-            : "[:class::$:property] data character length is greater than or equal to :max"
-        );
+        return $this->message ?? "character length of the [:class::$:property] data is not between :min and :max";
     }
 
     /**
@@ -55,6 +53,7 @@ class LengthMax extends StringValidatable
     public function placeholders(): array
     {
         return [
+            'min' => $this->min,
             'max' => $this->max,
         ];
     }
