@@ -6,6 +6,7 @@ use Takemo101\SimplePropCheck\Exception\{
     ExceptionFactory,
     Exception,
 };
+use Takemo101\SimplePropCheck\Support\MessageAnalyzer;
 use Throwable;
 
 /**
@@ -70,6 +71,18 @@ final class PropCheckFacade
     public static function effectWithException(object $object): void
     {
         self::factory($object)->effectWithException();
+    }
+
+    /**
+     * alias of effectWithException method
+     *
+     * @param object $object
+     * @return void
+     * @throws Throwable
+     */
+    public static function effective(object $object): void
+    {
+        self::effectWithException($object);
     }
 
     /**

@@ -1,9 +1,8 @@
 <?php
 
-namespace Takemo101\SimplePropCheck;
+namespace Takemo101\SimplePropCheck\Support;
 
-use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
-use ReflectionAttribute;
+use Takemo101\SimplePropCheck\AfterCall;
 use ReflectionClass;
 
 /**
