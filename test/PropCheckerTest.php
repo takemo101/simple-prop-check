@@ -13,7 +13,7 @@ use Takemo101\SimplePropCheck\Preset\NotEmpty;
 use Takemo101\SimplePropCheck\Preset\Numeric\Max;
 use Takemo101\SimplePropCheck\Preset\String\{
     Pattern,
-    LengthMin,
+    MinLength,
 };
 
 use DomainException;
@@ -266,7 +266,7 @@ class TestObject
         #[TestException]
         private string $b,
         #[NotEmpty]
-        #[LengthMin(1, false, "[:class::$:property] not_match :min")]
+        #[MinLength(1, false, "[:class::$:property] not_match :min")]
         public $c,
     ) {
         //

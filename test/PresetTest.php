@@ -6,15 +6,15 @@ use PHPUnit\Framework\TestCase;
 use Takemo101\SimplePropCheck\Preset\String\{
     URL,
     Email,
-    LengthBetween,
-    LengthMax,
-    LengthMin,
+    BetweenLength,
+    MaxLength,
+    MinLength,
     Pattern,
 };
 use Takemo101\SimplePropCheck\Preset\Array\{
-    SizeBetween,
-    SizeMax,
-    SizeMin,
+    BetweenSize,
+    MaxSize,
+    MinSize,
     Unique,
     TypedKey,
     TypedValue,
@@ -51,27 +51,27 @@ class PresetTest extends TestCase
         $this->assertTrue($v->verify('aaa@gmail.com'));
         $this->assertFalse($v->verify('http://aaa.com/page/'));
 
-        $v = new LengthBetween(1, 7);
+        $v = new BetweenLength(1, 7);
         $this->assertTrue($v->verify('abcdefg'));
         $this->assertFalse($v->verify('abcdefgh'));
         $this->assertTrue($v->verify('あいうえおかき'));
 
-        $v = new LengthMax(7);
+        $v = new MaxLength(7);
         $this->assertTrue($v->verify('abcdefg'));
         $this->assertFalse($v->verify('abcdefgh'));
         $this->assertTrue($v->verify('あいうえおかき'));
 
-        $v = new LengthMax(7, false);
+        $v = new MaxLength(7, false);
         $this->assertFalse($v->verify('abcdefg'));
         $this->assertTrue($v->verify('abcdef'));
         $this->assertFalse($v->verify('あいうえおかき'));
 
-        $v = new LengthMin(3);
+        $v = new MinLength(3);
         $this->assertTrue($v->verify('abc'));
         $this->assertFalse($v->verify('ab'));
         $this->assertTrue($v->verify('あいう'));
 
-        $v = new LengthMin(3, false);
+        $v = new MinLength(3, false);
         $this->assertFalse($v->verify('abc'));
         $this->assertTrue($v->verify('abcd'));
         $this->assertFalse($v->verify('あいう'));
@@ -86,23 +86,23 @@ class PresetTest extends TestCase
      */
     public function verifyArray__OK()
     {
-        $v = new SizeBetween(2, 5);
+        $v = new BetweenSize(2, 5);
         $this->assertTrue($v->verify([1, 2.5, 4]));
         $this->assertTrue($v->verify([1, 2.5]));
         $this->assertFalse($v->verify([1, 2.5, 4, 1, 1, 2]));
 
-        $v = new SizeMax(2);
+        $v = new MaxSize(2);
         $this->assertFalse($v->verify([1, 2.5, 4]));
         $this->assertTrue($v->verify([1, 2.5]));
 
-        $v = new SizeMax(2, false);
+        $v = new MaxSize(2, false);
         $this->assertFalse($v->verify([1, 2.5]));
 
-        $v = new SizeMin(3);
+        $v = new MinSize(3);
         $this->assertTrue($v->verify([1, 2.5, 4]));
         $this->assertFalse($v->verify([1, 2.5]));
 
-        $v = new SizeMin(3, false);
+        $v = new MinSize(3, false);
         $this->assertFalse($v->verify([1, 2.5, 4]));
 
         $v = new Unique;

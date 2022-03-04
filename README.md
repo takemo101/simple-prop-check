@@ -78,13 +78,13 @@ The following Attribute class is available.
 | - | - |
 | Takemo101\SimplePropCheck\Preset\String\URL | Validate URL string |
 | Takemo101\SimplePropCheck\Preset\String\Email | Validate the email address string |
-| Takemo101\SimplePropCheck\Preset\String\LengthBetween | Verify the number of characters |
-| Takemo101\SimplePropCheck\Preset\String\LengthMax | Verify the number of characters |
-| Takemo101\SimplePropCheck\Preset\String\LengthMin | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\BetweenLength | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\MaxLength | Verify the number of characters |
+| Takemo101\SimplePropCheck\Preset\String\MinLength | Verify the number of characters |
 | Takemo101\SimplePropCheck\Preset\String\Pattern | Validate regular expressions |
-| Takemo101\SimplePropCheck\Preset\Array\SizeBetween | Validate the size of the array |
-| Takemo101\SimplePropCheck\Preset\Array\SizeMax | Validate the size of the array |
-| Takemo101\SimplePropCheck\Preset\Array\SizeMin | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\BetweenSize | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\MaxSize | Validate the size of the array |
+| Takemo101\SimplePropCheck\Preset\Array\MinSize | Validate the size of the array |
 | Takemo101\SimplePropCheck\Preset\Array\Unique | Verify array duplication |
 | Takemo101\SimplePropCheck\Preset\Array\TypedKey | Validate the key type of the array |
 | Takemo101\SimplePropCheck\Preset\Array\TypedValue | Validate the value type of the array |

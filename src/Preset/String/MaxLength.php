@@ -1,21 +1,21 @@
 <?php
 
-namespace Takemo101\SimplePropCheck\Preset\Array;
+namespace Takemo101\SimplePropCheck\Preset\String;
 
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class SizeMin extends ArrayValidatable
+class MaxLength extends StringValidatable
 {
     /**
      * constructor
      *
-     * @param integer|float $min
+     * @param integer|float $max
      * @param boolean $equal
      * @param string|null $message
      */
     public function __construct(
-        private int|float $min,
+        private int|float $max,
         private bool $equal = true,
         private ?string $message = null,
     ) {
@@ -23,27 +23,27 @@ class SizeMin extends ArrayValidatable
     }
 
     /**
-     * get validate the data of the property
+     * validate the data of the property
      *
-     * @param mixed[] $data
+     * @param string $data
      * @return boolean returns true if the data is OK
      */
     public function verify($data): bool
     {
-        $size = count($data);
-        return $this->equal ? $this->min <= $size : $this->min < $size;
+        $length = mb_strlen($data);
+        return $this->equal ? $this->max >= $length : $this->max > $length;
     }
 
     /**
-     * verification fraudulent message
+     * get verification fraudulent message
      *
      * @return string
      */
     public function message(): string
     {
         return $this->message ?? ($this->equal
-            ? "[:class::$:property] data size is less than or equal to :min"
-            : "[:class::$:property] data size is less than :min"
+            ? "[:class::$:property] data character length is greater than :max"
+            : "[:class::$:property] data character length is greater than or equal to :max"
         );
     }
 
@@ -55,7 +55,7 @@ class SizeMin extends ArrayValidatable
     public function placeholders(): array
     {
         return [
-            'min' => $this->min,
+            'max' => $this->max,
         ];
     }
 }
