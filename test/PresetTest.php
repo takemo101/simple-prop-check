@@ -16,6 +16,9 @@ use Takemo101\SimplePropCheck\Preset\Array\{
     SizeMax,
     SizeMin,
     Unique,
+    TypedKey,
+    TypedValue,
+    TypedMap,
 };
 use Takemo101\SimplePropCheck\Preset\Numeric\{
     Between,
@@ -177,4 +180,116 @@ class PresetTest extends TestCase
         $this->assertTrue($v->verify([]));
         $this->assertFalse($v->verify(null));
     }
+
+    /**
+     * @test
+     */
+    public function verifyTypedMap__OK()
+    {
+        $v = new TypedKey('string|int');
+        $this->assertTrue($v->verify([
+            'a' => '',
+            1 => '',
+        ]));
+
+        $v = new TypedKey('string');
+        $this->assertTrue($v->verify([
+            'a' => '',
+            'b' => '',
+        ]));
+        $this->assertFalse($v->verify([
+            'a' => '',
+            1 => '',
+        ]));
+
+        $v = new TypedKey('integer');
+        $this->assertTrue($v->verify([
+            1 => '',
+            2 => '',
+        ]));
+        $this->assertFalse($v->verify([
+            'a' => '',
+            1 => '',
+        ]));
+
+
+        $v = new TypedValue('integer');
+        $this->assertTrue($v->verify([
+            1,
+            2,
+        ]));
+        $this->assertFalse($v->verify([
+            'a',
+            1,
+        ]));
+
+        $v = new TypedValue('string|integer|float');
+        $this->assertFalse($v->verify([
+            1,
+            2,
+            new TestValue,
+        ]));
+        $this->assertTrue($v->verify([
+            'a',
+            1,
+            1.1,
+        ]));
+
+        $v = new TypedValue('string|integer|float|' . TestValue::class);
+        $this->assertTrue($v->verify([
+            1,
+            2,
+            new TestValue,
+        ]));
+
+        $v = new TypedValue(TestValue::class);
+        $this->assertFalse($v->verify([
+            1,
+            2,
+            new TestValue,
+        ]));
+        $this->assertTrue($v->verify([
+            new TestValue,
+            new TestValue,
+        ]));
+
+        $v = new TypedMap('integer', 'string');
+        $this->assertTrue($v->verify([
+            1 => '',
+            2 => '',
+        ]));
+        $this->assertFalse($v->verify([
+            'a' => '',
+            1 => '',
+        ]));
+        $this->assertFalse($v->verify([
+            'a' => '',
+            'b' => 1,
+        ]));
+
+        $v = new TypedMap('integer', TestValue::class);
+        $this->assertTrue($v->verify([
+            new TestValue,
+            new TestValue,
+        ]));
+        $this->assertFalse($v->verify([
+            new TestValue,
+            'a',
+        ]));
+
+        $v = new TypedMap('string|int', 'string|' . TestValue::class);
+        $this->assertTrue($v->verify([
+            1 => '',
+            2 => new TestValue,
+        ]));
+        $this->assertFalse($v->verify([
+            'a' => '',
+            1 => 1,
+        ]));
+    }
+}
+
+class TestValue
+{
+    //
 }

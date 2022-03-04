@@ -79,7 +79,7 @@ class TestEntity
         #[Effect]
         private TestAge $age,
     ) {
-        PropCheckFacade::effectWithException($this);
+        PropCheckFacade::effective($this);
     }
 
     private function isValid(): void

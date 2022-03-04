@@ -1,6 +1,6 @@
 <?php
 
-namespace Takemo101\SimplePropCheck;
+namespace Takemo101\SimplePropCheck\Support;
 
 use InvalidArgumentException;
 

@@ -23,6 +23,7 @@ use Takemo101\SimplePropCheck\Preset\String\ {
     Pattern,
 };
 use Takemo101\SimplePropCheck\Preset\Numeric\Min;
+use Takemo101\SimplePropCheck\Preset\Array\TypedValue;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
 
 /**
@@ -41,6 +42,9 @@ class Test
         private string $pattern,
         #[Min(3)]
         private integer $min,
+        // Validate array values ​​by type.
+        #[TypedValue('integer|string')]
+        private array $nums,
         #[NotEmpty]
         private $notEmpty = null,
     ) {
@@ -52,6 +56,11 @@ $test = new Test(
     'hello',
     'are',
     4,
+    [
+        1,
+        2,
+        'hello',
+    ]
 );
 
 // Validate the property by passing the object to the check method.
@@ -77,6 +86,9 @@ The following Attribute class is available.
 | Takemo101\SimplePropCheck\Preset\Array\SizeMax | Validate the size of the array |
 | Takemo101\SimplePropCheck\Preset\Array\SizeMin | Validate the size of the array |
 | Takemo101\SimplePropCheck\Preset\Array\Unique | Verify array duplication |
+| Takemo101\SimplePropCheck\Preset\Array\TypedKey | Validate the key type of the array |
+| Takemo101\SimplePropCheck\Preset\Array\TypedValue | Validate the value type of the array |
+| Takemo101\SimplePropCheck\Preset\Array\TypedMap | Validate array key and value types |
 | Takemo101\SimplePropCheck\Preset\Numeric\Between | Verify the range of numbers |
 | Takemo101\SimplePropCheck\Preset\Numeric\Max | Verify the range of numbers |
 | Takemo101\SimplePropCheck\Preset\Numeric\Min | Verify the range of numbers |

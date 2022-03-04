@@ -3,6 +3,12 @@
 namespace Takemo101\SimplePropCheck;
 
 use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
+use Takemo101\SimplePropCheck\Support\{
+    CallMethod,
+    ObjectToPropAttributes,
+    ObjectToEffectObjects,
+    MessageAnalyzer,
+};
 use Throwable;
 
 /**

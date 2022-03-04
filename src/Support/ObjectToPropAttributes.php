@@ -1,8 +1,12 @@
 <?php
 
-namespace Takemo101\SimplePropCheck;
+namespace Takemo101\SimplePropCheck\Support;
 
 use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
+use Takemo101\SimplePropCheck\{
+    PropAttribute,
+    Validatable,
+};
 use ReflectionAttribute;
 use ReflectionProperty;
 use ReflectionClass;
