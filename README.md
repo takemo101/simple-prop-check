@@ -68,7 +68,7 @@ $test = new Test(
 $result = PropCheckFacade::check($test); // $result == false
 
 //　By passing an object to the exception method, the validation result will be returned as an exception.
-PropCheckFacade::checkWithException($test); // throw exception
+PropCheckFacade::exception($test); // throw exception
 
 ```
 ### Property Attribute provided
@@ -249,7 +249,7 @@ class Test
 }
 
 $test = new Test('hi');
-PropCheckFacade::checkWithException($test); // throw LogicException
+PropCheckFacade::exception($test); // throw LogicException
 
 ```
 
@@ -314,11 +314,9 @@ $first = new First(
     ),
 );
 
-// When using Effect, use effect method
-$result = PropCheckFacade::effect($first); // $result == false
+$result = PropCheckFacade::check($first); // $result == false
 
-// Use effectkWithException method to raise an exception
-PropCheckFacade::effectWithException($first); // throw exception
+PropCheckFacade::exception($first); // throw exception
 
 ```
 ## About the AfterCall class

@@ -52,7 +52,7 @@ class PropCheckerTest extends TestCase
             "b",
             "",
         ));
-        $checker->checkWithException();
+        $checker->exception();
     }
 
     /**
@@ -67,7 +67,7 @@ class PropCheckerTest extends TestCase
             "b",
             1,
         ));
-        $checker->checkWithException();
+        $checker->exception();
     }
 
     /**
@@ -82,7 +82,7 @@ class PropCheckerTest extends TestCase
             "",
             "ccc",
         ));
-        $checker->checkWithException();
+        $checker->exception();
     }
 
     /**
@@ -96,7 +96,7 @@ class PropCheckerTest extends TestCase
             "ccc",
         ));
         try {
-            $checker->checkWithException();
+            $checker->exception();
         } catch (LogicException $e) {
             $this->assertEquals('property logic error: not_match', $e->getMessage());
         }
@@ -113,7 +113,7 @@ class PropCheckerTest extends TestCase
             "c",
         ));
         try {
-            $checker->checkWithException();
+            $checker->exception();
         } catch (DomainException $e) {
             $this->assertEquals('property data error: [Test\TestObject::$c] not_match 1', $e->getMessage());
         }
@@ -136,7 +136,7 @@ class PropCheckerTest extends TestCase
             [],
         ));
 
-        $this->assertTrue($checker->effect());
+        $this->assertTrue($checker->check());
     }
 
     /**
@@ -144,9 +144,9 @@ class PropCheckerTest extends TestCase
      */
     public function createPropChecker__effect__NG()
     {
-        $this->expectException(DomainException::class);
+        $this->expectException(LogicException::class);
 
-        PropCheckFacade::effectWithException(new FirstObject(
+        PropCheckFacade::exception(new FirstObject(
             "aa",
             new SecondObject(
                 'a',
@@ -169,7 +169,7 @@ class PropCheckerTest extends TestCase
                     0,
                 ),
             ],
-        ));
+        ), new TestException);
     }
 
     /**
@@ -182,7 +182,7 @@ class PropCheckerTest extends TestCase
             2,
         );
 
-        PropCheckFacade::effect(new FirstObject(
+        PropCheckFacade::check(new FirstObject(
             "aa",
             new SecondObject(
                 'a',
