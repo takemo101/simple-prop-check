@@ -43,11 +43,12 @@ final class PropCheckFacade
      *
      * @param object $object
      * @param ExceptionFactory|null $exceptionFactory
-     * @return void
+     * @return object
+     * @throws Throwable
      */
-    public static function exception(object $object, ?ExceptionFactory $exceptionFactory = null): void
+    public static function exception(object $object, ?ExceptionFactory $exceptionFactory = null): object
     {
-        self::factory($object, $exceptionFactory)->effectWithException();
+        return self::factory($object, $exceptionFactory)->effectWithException();
     }
 
     /**

@@ -6,6 +6,7 @@ use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
 use Takemo101\SimplePropCheck\{
     PropAttribute,
     Validatable,
+    Sanitizable,
 };
 use ReflectionAttribute;
 use ReflectionProperty;
@@ -71,7 +72,9 @@ final class ObjectToPropAttributes
         $reflection->setAccessible(true);
 
         $propertyName = $reflection->getName();
-        $data = $reflection->getValue($this->object);
+
+        // get sanitizing property value
+        $data = $this->createSanitizingData($reflection);
 
         // get validatables
         $validatables = $this->createValidatables($reflection);
@@ -86,6 +89,34 @@ final class ObjectToPropAttributes
             $validatables,
             $exception,
         ) : null;
+    }
+
+    /**
+     * sanitizing data
+     *
+     * @param ReflectionProperty $reflection
+     * @return mixed
+     */
+    private function createSanitizingData(ReflectionProperty $reflection): mixed
+    {
+        $data = $reflection->getValue($this->object);
+
+        $attributes = $reflection->getAttributes(Sanitizable::class, ReflectionAttribute::IS_INSTANCEOF);
+
+        foreach ($attributes as $attribute) {
+            /**
+             * @var Sanitizable
+             */
+            $sanitize = $attribute->newInstance();
+
+            $data = $sanitize->sanitize($data);
+        }
+
+        if (count($attributes)) {
+            $reflection->setValue($this->object, $data);
+        }
+
+        return $data;
     }
 
     /**
