@@ -76,10 +76,10 @@ final class PropChecker
     /**
      * check with throw exception
      *
-     * @return void
+     * @return object
      * @throws Throwable
      */
-    public function checkWithException(): void
+    public function exception(): object
     {
         $props = ObjectToPropAttributes::toArray($this->object);
 
@@ -104,15 +104,17 @@ final class PropChecker
         }
 
         CallMethod::toCall($this->object);
+
+        return $this->object;
     }
 
     /**
      * checks and effects with throw exception
      *
-     * @return void
+     * @return object
      * @throws Throwable
      */
-    public function effectWithException(): void
+    public function effectWithException(): object
     {
         $objects = ObjectToEffectObjects::toArray($this->object);
 
@@ -124,7 +126,7 @@ final class PropChecker
             ))->effectWithException();
         }
 
-        $this->checkWithException();
+        return $this->exception();
     }
 
     /**

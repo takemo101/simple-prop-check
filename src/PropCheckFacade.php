@@ -28,23 +28,12 @@ final class PropCheckFacade
     }
 
     /**
-     * checks
-     *
-     * @param object $object
-     * @return boolean
-     */
-    public static function check(object $object): bool
-    {
-        return self::factory($object)->check();
-    }
-
-    /**
      * checks and effects
      *
      * @param object $object
      * @return boolean
      */
-    public static function effect(object $object): bool
+    public static function check(object $object): bool
     {
         return self::factory($object)->effect();
     }
@@ -53,50 +42,30 @@ final class PropCheckFacade
      * check with throw exception
      *
      * @param object $object
-     * @return void
+     * @param ExceptionFactory|null $exceptionFactory
+     * @return object
      * @throws Throwable
      */
-    public static function checkWithException(object $object): void
+    public static function exception(object $object, ?ExceptionFactory $exceptionFactory = null): object
     {
-        self::factory($object)->checkWithException();
-    }
-
-    /**
-     * checks and effect with throw exception
-     *
-     * @param object $object
-     * @return void
-     * @throws Throwable
-     */
-    public static function effectWithException(object $object): void
-    {
-        self::factory($object)->effectWithException();
-    }
-
-    /**
-     * alias of effectWithException method
-     *
-     * @param object $object
-     * @return void
-     * @throws Throwable
-     */
-    public static function effective(object $object): void
-    {
-        self::effectWithException($object);
+        return self::factory($object, $exceptionFactory)->effectWithException();
     }
 
     /**
      * factory
      *
      * @param object $object
+     * @param ExceptionFactory|null $exceptionFactory
      * @return PropChecker
      */
-    public static function factory(object $object): PropChecker
+    public static function factory(object $object, ?ExceptionFactory $exceptionFactory = null): PropChecker
     {
         return new PropChecker(
             $object,
             new MessageAnalyzer,
-            self::getExceptionFactory()->copy(),
+            $exceptionFactory
+                ? $exceptionFactory->copy()
+                : self::getExceptionFactory()->copy(),
         );
     }
 

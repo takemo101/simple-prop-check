@@ -21,12 +21,12 @@ abstract class AbstractValidatable implements Validatable
     }
 
     /**
-     * is valid data
+     * can it be verified
      *
      * @param mixed $data
      * @return bool
      */
-    public function isValid($data): bool
+    public function canVerified($data): bool
     {
         return true;
     }
