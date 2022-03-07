@@ -170,7 +170,7 @@ class MatchText extends AbstractValidatable
      * @param mixed $data
      * @return bool
      */
-    public function isValid($data): bool
+    public function canVerified($data): bool
     {
         return is_string($data);
     }

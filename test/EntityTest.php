@@ -68,7 +68,7 @@ class EntityTest extends TestCase
     }
 }
 
-#[AfterCall('isValid')]
+#[AfterCall('canVerified')]
 class TestEntity
 {
     public function __construct(
@@ -82,7 +82,7 @@ class TestEntity
         PropCheckFacade::exception($this);
     }
 
-    private function isValid(): void
+    private function canVerified(): void
     {
         if ($this->age->isElderly()) {
             throw new Exception('error');

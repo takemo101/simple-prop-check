@@ -25,12 +25,12 @@ interface Validatable
     public function message(): string;
 
     /**
-     * is valid data
+     * can it be verified
      *
      * @param mixed $data
      * @return bool
      */
-    public function isValid($data): bool;
+    public function canVerified($data): bool;
 
     /**
      * get validate placeholders

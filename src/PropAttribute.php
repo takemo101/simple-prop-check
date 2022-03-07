@@ -92,8 +92,9 @@ final class PropAttribute
     {
         foreach ($this->validatables as $validatable) {
 
-            if (!$validatable->isValid($this->data)) {
-                throw new InvalidArgumentException('validatable data error: data cannot be verified');
+            if (!$validatable->canVerified($this->data)) {
+                $type = gettype($this->data);
+                throw new InvalidArgumentException("validatable data error: property [{$this->className}::\${$this->propertyName}] type [{$type}] data cannot be verified");
             }
 
             if (!$validatable->verify($this->data)) {

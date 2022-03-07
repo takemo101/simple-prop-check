@@ -10,12 +10,12 @@ use Takemo101\SimplePropCheck\AbstractValidatable;
 abstract class StringValidatable extends AbstractValidatable
 {
     /**
-     * is valid data
+     * can it be verified
      *
      * @param mixed $data
      * @return bool
      */
-    public function isValid($data): bool
+    public function canVerified($data): bool
     {
         return is_string($data);
     }
