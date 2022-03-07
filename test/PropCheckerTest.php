@@ -235,7 +235,6 @@ class ThirdObject
 
     public function __construct(
         #[NotEmpty]
-        #[Max(100)]
         private string $a,
         #[NotEmpty]
         #[Max(100)]
