@@ -7,11 +7,11 @@ on:
     branches: [main, develop]
 
 jobs:
-  run-phpstan:
+  phpstan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
-      - name: Run PHPStan
+      - name: Execute PHPStan
         run: vendor/bin/phpstan analyse
