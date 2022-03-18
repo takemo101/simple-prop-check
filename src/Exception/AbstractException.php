@@ -8,6 +8,14 @@ namespace Takemo101\SimplePropCheck\Exception;
 abstract class AbstractException implements ExceptionFactory
 {
     /**
+     * constructor
+     */
+    final public function __construct()
+    {
+        //
+    }
+
+    /**
      * deep copy method
      *
      * @return static
