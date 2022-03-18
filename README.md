@@ -1,4 +1,8 @@
 # The Simple Prop Check
+
+[![Testing](https://github.com/takemo101/simple-prop-check/actions/workflows/testing.yml/badge.svg)](https://github.com/takemo101/simple-prop-check/actions/workflows/testing.yml)
+[![PHPStan](https://github.com/takemo101/simple-prop-check/actions/workflows/phpstan.yml/badge.svg)](https://github.com/takemo101/simple-prop-check/actions/workflows/phpstan.yml)
+
 The Simple Prop Check is a simple property validator.   
 Enjoy!
 
