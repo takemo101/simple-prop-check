@@ -8,6 +8,11 @@ use Takemo101\SimplePropCheck\{
     Validatable,
     Sanitizable,
 };
+use Takemo101\SimplePropCheck\Support\ReflectionProcess\{
+    ToExceptionFactory,
+    ToSanitizeData,
+    ToValidatables,
+};
 use ReflectionAttribute;
 use ReflectionProperty;
 use ReflectionClass;
@@ -17,6 +22,13 @@ use ReflectionClass;
  */
 final class ObjectToPropAttributes
 {
+
+    private ToExceptionFactory $toExceptionFactory;
+
+    private ToSanitizeData $toSanitizeData;
+
+    private ToValidatables $toValidatables;
+
     /**
      * constructor
      *
@@ -25,7 +37,9 @@ final class ObjectToPropAttributes
     public function __construct(
         private object $object,
     ) {
-        //
+        $this->toExceptionFactory = new ToExceptionFactory;
+        $this->toSanitizeData = new ToSanitizeData($this->object);
+        $this->toValidatables = new ToValidatables;
     }
 
     /**
@@ -74,13 +88,13 @@ final class ObjectToPropAttributes
         $propertyName = $reflection->getName();
 
         // get sanitizing property value
-        $data = $this->createSanitizingData($reflection);
+        $data = $this->toSanitizeData->byReflectionProperty($reflection);
 
         // get validatables
-        $validatables = $this->createValidatables($reflection);
+        $validatables = $this->toValidatables->byReflectionProperty($reflection);
 
         // get exception factory
-        $exception = $this->createExceptionFactory($reflection);
+        $exception = $this->toExceptionFactory->byReflectionProperty($reflection);
 
         return count($validatables) ? new PropAttribute(
             $className,
@@ -89,80 +103,6 @@ final class ObjectToPropAttributes
             $validatables,
             $exception,
         ) : null;
-    }
-
-    /**
-     * sanitizing data
-     *
-     * @param ReflectionProperty $reflection
-     * @return mixed
-     */
-    private function createSanitizingData(ReflectionProperty $reflection): mixed
-    {
-        $data = $reflection->getValue($this->object);
-
-        $attributes = $reflection->getAttributes(Sanitizable::class, ReflectionAttribute::IS_INSTANCEOF);
-
-        foreach ($attributes as $attribute) {
-            /**
-             * @var Sanitizable
-             */
-            $sanitize = $attribute->newInstance();
-
-            $data = $sanitize->sanitize($data);
-        }
-
-        if (count($attributes)) {
-            $reflection->setValue($this->object, $data);
-        }
-
-        return $data;
-    }
-
-    /**
-     * create a Validatable array
-     *
-     * @param ReflectionProperty $reflection
-     * @return Validatable<mixed>[]
-     */
-    private function createValidatables(ReflectionProperty $reflection): array
-    {
-        /**
-         * @var Validatable<mixed>[]
-         */
-        $result = [];
-
-        $attributes = $reflection->getAttributes(Validatable::class, ReflectionAttribute::IS_INSTANCEOF);
-
-        foreach ($attributes as $attribute) {
-
-            $result[] = $attribute->newInstance();
-        }
-
-        return $result;
-    }
-
-    /**
-     * create ExceptionFactory
-     *
-     * @param ReflectionProperty $reflection
-     * @return ExceptionFactory|null
-     */
-    private function createExceptionFactory(ReflectionProperty $reflection): ?ExceptionFactory
-    {
-        /**
-         * @var ExceptionFactory|null
-         */
-        $result = null;
-
-        $attributes = $reflection->getAttributes(ExceptionFactory::class, ReflectionAttribute::IS_INSTANCEOF);
-
-        foreach ($attributes as $attribute) {
-
-            $result = $attribute->newInstance();
-        }
-
-        return $result;
     }
 
     /**
