@@ -5,11 +5,15 @@ start:
 
 .PHONY: shell
 shell:
-	docker-compose exec php bash
+	docker-compose exec php81 bash
 
 .PHONY: stop
 stop:
-	docker-compose stop php
+	docker-compose stop php81
+
+.PHONY: remove
+remove:
+	docker-compose rm php81
 
 .PHONY: install
 install:
@@ -25,7 +29,11 @@ autoload:
 
 .PHONY: test
 test:
-	docker-compose run --rm php ./vendor/bin/phpunit
+	docker-compose run --rm php81 ./vendor/bin/phpunit
+
+.PHONY: test80
+test80:
+	docker-compose run --rm php80 ./vendor/bin/phpunit
 
 .PHONY: phpstan
 phpstan:
