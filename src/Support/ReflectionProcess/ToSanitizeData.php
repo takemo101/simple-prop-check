@@ -32,7 +32,7 @@ final class ToSanitizeData
     private function canSanitize(
         ReflectionProperty $reflection,
     ): bool {
-        return version_compare(phpversion(), '8.1.0', '>=')
+        return version_compare(phpversion(), '8.1.0', '>=') && method_exists($reflection, 'isReadOnly')
             ? !$reflection->isReadOnly()
             : true;
     }
