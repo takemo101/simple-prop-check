@@ -14,7 +14,7 @@ final class ToExceptionFactory
     /**
      * to exception factory by reflection property
      *
-     * @param ReflectionProperty $refletion
+     * @param ReflectionProperty $reflection
      * @return ExceptionFactory|null
      */
     public function byReflectionProperty(
