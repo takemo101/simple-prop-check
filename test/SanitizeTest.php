@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Takemo101\SimplePropCheck\Preset\NotEmpty;
 use Takemo101\SimplePropCheck\Sanitize\String\{
     Trim,
+    RTrim,
+    LTrim,
     Replace,
 };
 use Takemo101\SimplePropCheck\PropCheckFacade;
@@ -23,6 +25,12 @@ class SanitizeTest extends TestCase
     {
         $s = new Trim;
         $this->assertEquals($s->sanitize("  data \n"), 'data');
+
+        $s = new RTrim;
+        $this->assertEquals($s->sanitize("  data \n"), '  data');
+
+        $s = new LTrim;
+        $this->assertEquals($s->sanitize("  data \n"), "data \n");
 
         $s = new Replace(['d', 't'], 'a');
         $this->assertEquals($s->sanitize("data"), 'aaaa');
