@@ -15,6 +15,7 @@ use Takemo101\SimplePropCheck\Preset\{
 use Takemo101\SimplePropCheck\{
     PropCheckFacade,
     Effect,
+    IgnoreEffect,
     AfterCall,
 };
 use Exception;
@@ -65,6 +66,34 @@ class EntityTest extends TestCase
             new TestEmail('xxxx@xxx.com'),
             new TestAge(65),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function ignoreEffect__forObject__OK()
+    {
+        $entity = new TestIgnoreEffectObject(
+            new TestTitle(''),
+        );
+
+        $this->assertEquals($entity->title->title, '');
+    }
+
+    /**
+     * @test
+     */
+    public function ignoreEffect__forArray__OK()
+    {
+        $entity = new TestIgnoreEffectArray(
+            [
+                new TestTitle(''),
+                new TestTitle(''),
+            ],
+        );
+
+        $this->assertEquals($entity->titles[0]->title, '');
+        $this->assertEquals($entity->titles[1]->title, '');
     }
 }
 
@@ -130,6 +159,37 @@ class TestEmail
     public function __construct(
         #[Email]
         private string $email,
+    ) {
+        //
+    }
+}
+
+class TestIgnoreEffectObject
+{
+    public function __construct(
+        #[Effect]
+        public TestTitle $title,
+    ) {
+        PropCheckFacade::exception($this);
+    }
+}
+
+class TestIgnoreEffectArray
+{
+    public function __construct(
+        #[Effect]
+        public array $titles,
+    ) {
+        //
+    }
+}
+
+#[IgnoreEffect]
+class TestTitle
+{
+    public function __construct(
+        #[NotEmpty]
+        public string $title,
     ) {
         //
     }

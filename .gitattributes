@@ -5,3 +5,5 @@
 .gitignore export-ignore
 phpunit.xml.dist export-ignore
 Makefile export-ignore
+/.env export-ignore
+/.example.env export-ignore
