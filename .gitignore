@@ -3,6 +3,9 @@ composer.phar
 composer.lock
 /vendor/
 
+# for docker-compose
+/.env
+
 # for phpunit
 .phpunit.result.cache
 
