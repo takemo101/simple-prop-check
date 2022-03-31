@@ -5,6 +5,7 @@ namespace Takemo101\SimplePropCheck\Support;
 use Takemo101\SimplePropCheck\Effect;
 use ReflectionProperty;
 use ReflectionClass;
+use Takemo101\SimplePropCheck\IgnoreEffect;
 
 /**
  * convert from an object array to an object that need an effects
@@ -64,13 +65,31 @@ final class ObjectToEffectObjects
             $object = $reflection->getValue($this->object);
 
             if (is_object($object)) {
-                return [$object];
+                return $this->isIgnoreEffectObject($object) ? [] : [$object];
             } else if (is_array($object)) {
-                return array_filter($object, fn ($o) => is_object($o));
+                return array_filter(
+                    $object,
+                    fn ($o) => is_object($o)
+                        ? !$this->isIgnoreEffectObject($o)
+                        : false,
+                );
             }
         }
 
         return [];
+    }
+
+    /**
+     * is ignore effect object
+     *
+     * @param object $object
+     * @return boolean
+     */
+    private function isIgnoreEffectObject(object $object): bool
+    {
+        $reflection = new ReflectionClass($object);
+
+        return count($reflection->getAttributes(IgnoreEffect::class)) > 0;
     }
 
     /**
