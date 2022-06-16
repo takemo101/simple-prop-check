@@ -58,21 +58,6 @@ class PropCheckerTest extends TestCase
     /**
      * @test
      */
-    public function createPropChecker__invalidArgumentException__NG()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $checker = PropCheckFacade::factory(new TestObject(
-            "aa",
-            "b",
-            1,
-        ));
-        $checker->exception();
-    }
-
-    /**
-     * @test
-     */
     public function createPropChecker__testException__NG()
     {
         $this->expectException(LogicException::class);
