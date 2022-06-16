@@ -86,15 +86,13 @@ final class PropAttribute
      * verify
      *
      * @return Validatable<mixed>|null
-     * @throws InvalidArgumentException
      */
     public function verify(): ?Validatable
     {
         foreach ($this->validatables as $validatable) {
 
             if (!$validatable->canVerified($this->data)) {
-                $type = gettype($this->data);
-                throw new InvalidArgumentException("validatable data error: property [{$this->className}::\${$this->propertyName}] type [{$type}] data cannot be verified");
+                return null;
             }
 
             if (!$validatable->verify($this->data)) {
