@@ -108,7 +108,9 @@ class PresetTest extends TestCase
         $v = new Unique;
         $this->assertTrue($v->verify([1, 2, 3, "a"]));
         $this->assertFalse($v->verify([1, 2, 2, "a"]));
-        $this->assertTrue($v->verify([TestEnum::A, TestEnum::B, TestEnum::C]));
+        if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+            $this->assertTrue($v->verify([TestEnum::A, TestEnum::B, TestEnum::C]));
+        }
     }
 
     /**
@@ -295,9 +297,11 @@ class TestValue
     //
 }
 
-enum TestEnum
-{
-    case A;
-    case B;
-    case C;
+if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+    enum TestEnum
+    {
+        case A;
+        case B;
+        case C;
+    }
 }
