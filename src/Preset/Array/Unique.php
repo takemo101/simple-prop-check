@@ -10,9 +10,11 @@ class Unique extends ArrayValidatable
     /**
      * constructor
      *
+     * @param boolean $strict
      * @param string|null $message
      */
     public function __construct(
+        private bool $strict = false,
         private ?string $message = null,
     ) {
         //
@@ -26,8 +28,17 @@ class Unique extends ArrayValidatable
      */
     public function verify($data): bool
     {
-        $counts = array_count_values($data);
-        return max($counts) <= 1;
+        $list = [];
+
+        foreach ($data as $value) {
+            if (array_search($value, $list, $this->strict)) {
+                return false;
+            }
+
+            $list[] = $value;
+        }
+
+        return true;
     }
 
     /**

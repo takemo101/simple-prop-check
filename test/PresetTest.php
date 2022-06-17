@@ -108,6 +108,7 @@ class PresetTest extends TestCase
         $v = new Unique;
         $this->assertTrue($v->verify([1, 2, 3, "a"]));
         $this->assertFalse($v->verify([1, 2, 2, "a"]));
+        $this->assertTrue($v->verify([TestEnum::A, TestEnum::B, TestEnum::C]));
     }
 
     /**
@@ -292,4 +293,11 @@ class PresetTest extends TestCase
 class TestValue
 {
     //
+}
+
+enum TestEnum
+{
+    case A;
+    case B;
+    case C;
 }
