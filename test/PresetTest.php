@@ -293,10 +293,3 @@ class TestValue
 {
     //
 }
-
-enum TestEnum
-{
-    case A;
-    case B;
-    case C;
-}
