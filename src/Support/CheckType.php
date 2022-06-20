@@ -11,10 +11,17 @@ final class CheckType
 {
     const UnionSeparator = '|';
 
+    const IntersectionSeparator = '&';
+
     /**
      * @var string[]
      */
-    private array $types;
+    private readonly array $types;
+
+    /**
+     * @var boolean
+     */
+    private readonly bool $isUnionType;
 
     /**
      * constructor
@@ -24,9 +31,13 @@ final class CheckType
     public function __construct(
         string $type,
     ) {
+        $this->isUnionType = strpos($type, self::IntersectionSeparator) === false ? true : false;
+
+        $separator = $this->isUnionType ? self::UnionSeparator : self::IntersectionSeparator;
+
         $types = array_filter(
             explode(
-                self::UnionSeparator,
+                $separator,
                 str_replace(' ', '', trim($type))
             )
         );
@@ -56,13 +67,15 @@ final class CheckType
      */
     public function verify($data): bool
     {
+        $result = false;
+
         foreach ($this->types as $type) {
             if ($this->check($type, $data)) {
-                return true;
+                $result = true;
             }
         }
 
-        return false;
+        return $this->isUnionType ? $result : !$result;
     }
 
     /**
