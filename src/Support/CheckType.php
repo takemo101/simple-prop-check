@@ -121,8 +121,8 @@ final class CheckType
                 return is_string($data);
             case 'mixed':
                 return true;
-            default:
-                return $data instanceof $type;
         }
+
+        return $data instanceof $type;
     }
 }
