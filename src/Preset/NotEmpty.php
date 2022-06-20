@@ -17,7 +17,7 @@ class NotEmpty extends AbstractValidatable
      * @param string|null $message
      */
     public function __construct(
-        private ?string $message = null,
+        private readonly ?string $message = null,
     ) {
         //
     }

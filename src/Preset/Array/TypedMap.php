@@ -11,12 +11,12 @@ class TypedMap extends ArrayValidatable
     /**
      * @var CheckType
      */
-    private CheckType $keyType;
+    private readonly CheckType $keyType;
 
     /**
      * @var CheckType
      */
-    private CheckType $valueType;
+    private readonly CheckType $valueType;
 
     /**
      * constructor

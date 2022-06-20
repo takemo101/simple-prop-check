@@ -15,9 +15,9 @@ class MinLength extends StringValidatable
      * @param string|null $message
      */
     public function __construct(
-        private int|float $min,
-        private bool $equal = true,
-        private ?string $message = null,
+        private readonly int|float $min,
+        private readonly bool $equal = true,
+        private readonly ?string $message = null,
     ) {
         //
     }

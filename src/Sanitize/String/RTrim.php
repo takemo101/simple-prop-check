@@ -17,7 +17,7 @@ class RTrim implements Sanitizable
      * @param string|null $characters
      */
     public function __construct(
-        private ?string $characters = null,
+        private readonly ?string $characters = null,
     ) {
     }
 

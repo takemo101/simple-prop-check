@@ -17,7 +17,6 @@ use Takemo101\SimplePropCheck\Preset\String\{
 };
 
 use DomainException;
-use InvalidArgumentException;
 use LogicException;
 use Throwable;
 use Attribute;

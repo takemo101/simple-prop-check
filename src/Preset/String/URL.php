@@ -13,7 +13,7 @@ class URL extends StringValidatable
      * @param string|null $message
      */
     public function __construct(
-        private ?string $message = null,
+        private readonly ?string $message = null,
     ) {
         //
     }

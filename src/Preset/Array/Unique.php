@@ -14,8 +14,8 @@ class Unique extends ArrayValidatable
      * @param string|null $message
      */
     public function __construct(
-        private bool $strict = false,
-        private ?string $message = null,
+        private readonly bool $strict = false,
+        private readonly ?string $message = null,
     ) {
         //
     }

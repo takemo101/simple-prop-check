@@ -24,8 +24,8 @@ final class PropChecker
      */
     public function __construct(
         private object $object,
-        private MessageAnalyzer $analyzer,
-        private ExceptionFactory $factory,
+        private readonly MessageAnalyzer $analyzer,
+        private readonly ExceptionFactory $factory,
     ) {
         //
     }

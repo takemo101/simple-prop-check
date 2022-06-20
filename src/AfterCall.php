@@ -16,7 +16,7 @@ final class AfterCall
      * @param string $method
      */
     public function __construct(
-        private string $method = 'init',
+        private readonly string $method = 'init',
     ) {
         //
     }

@@ -11,7 +11,7 @@ class TypedKey extends ArrayValidatable
     /**
      * @var CheckType
      */
-    private CheckType $type;
+    private readonly CheckType $type;
 
     /**
      * constructor
@@ -21,7 +21,7 @@ class TypedKey extends ArrayValidatable
      */
     public function __construct(
         string $type,
-        private ?string $message = null,
+        private readonly ?string $message = null,
     ) {
         $this->type = new CheckType($type);
     }
