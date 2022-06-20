@@ -94,6 +94,7 @@ The following Attribute class is available.
 | Takemo101\SimplePropCheck\Preset\Array\TypedKey | Validate the key type of the array |
 | Takemo101\SimplePropCheck\Preset\Array\TypedValue | Validate the value type of the array |
 | Takemo101\SimplePropCheck\Preset\Array\TypedMap | Validate array key and value types |
+| Takemo101\SimplePropCheck\Preset\Array\Each | Validate the array of each data |
 | Takemo101\SimplePropCheck\Preset\Numeric\Between | Verify the range of numbers |
 | Takemo101\SimplePropCheck\Preset\Numeric\Max | Verify the range of numbers |
 | Takemo101\SimplePropCheck\Preset\Numeric\Min | Verify the range of numbers |
