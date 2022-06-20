@@ -20,8 +20,8 @@ class Each extends ArrayValidatable
      * @param string|null $message
      */
     public function __construct(
-        private array $validates,
-        private ?string $message = null,
+        private readonly array $validates,
+        private readonly ?string $message = null,
     ) {
         //
     }

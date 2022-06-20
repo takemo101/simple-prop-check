@@ -21,11 +21,11 @@ final class PropAttribute
      * @throws InvalidArgumentException
      */
     public function __construct(
-        private string $className,
-        private string $propertyName,
-        private mixed $data,
-        private array $validatables,
-        private ?ExceptionFactory $exceptionFactory,
+        private readonly string $className,
+        private readonly string $propertyName,
+        private readonly mixed $data,
+        private readonly array $validatables,
+        private readonly ?ExceptionFactory $exceptionFactory,
     ) {
         if (!count($validatables)) {
             throw new InvalidArgumentException('constructor argument error: validatables is empty');

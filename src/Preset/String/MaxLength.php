@@ -15,9 +15,9 @@ class MaxLength extends StringValidatable
      * @param string|null $message
      */
     public function __construct(
-        private int|float $max,
-        private bool $equal = true,
-        private ?string $message = null,
+        private readonly int|float $max,
+        private readonly bool $equal = true,
+        private readonly ?string $message = null,
     ) {
         //
     }

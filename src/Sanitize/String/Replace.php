@@ -18,8 +18,8 @@ class Replace implements Sanitizable
      * @param string[]|string $replace
      */
     public function __construct(
-        private array|string $search,
-        private array|string $replace,
+        private readonly array|string $search,
+        private readonly array|string $replace,
     ) {
     }
 

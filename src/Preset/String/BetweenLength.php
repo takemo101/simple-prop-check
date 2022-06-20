@@ -16,9 +16,9 @@ class BetweenLength extends StringValidatable
      * @param string|null $message
      */
     public function __construct(
-        private int|float $min,
-        private int|float $max,
-        private ?string $message = null,
+        private readonly int|float $min,
+        private readonly int|float $max,
+        private readonly ?string $message = null,
     ) {
         //
     }

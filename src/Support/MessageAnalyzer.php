@@ -12,7 +12,7 @@ final class MessageAnalyzer
     /**
      * @var string
      */
-    private string $prefix;
+    private readonly string $prefix;
 
     /**
      * constructor

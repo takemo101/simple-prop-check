@@ -15,8 +15,8 @@ class Pattern extends StringValidatable
      * @param string|null $message
      */
     public function __construct(
-        private string $pattern,
-        private ?string $message = null,
+        private readonly string $pattern,
+        private readonly ?string $message = null,
     ) {
         //
     }
