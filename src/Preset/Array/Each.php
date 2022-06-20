@@ -9,14 +9,14 @@ use Takemo101\SimplePropCheck\Validatable;
 class Each extends ArrayValidatable
 {
     /**
-     * @var Validatable|null
+     * @var Validatable<mixed>|null
      */
     private ?Validatable $lastValidate;
 
     /**
      * constructor
      *
-     * @param Validatable[] $validates
+     * @param Validatable<mixed>[] $validates
      * @param string|null $message
      */
     public function __construct(
