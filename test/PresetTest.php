@@ -19,6 +19,7 @@ use Takemo101\SimplePropCheck\Preset\Array\{
     TypedKey,
     TypedValue,
     TypedMap,
+    Each,
 };
 use Takemo101\SimplePropCheck\Preset\Numeric\{
     Between,
@@ -31,7 +32,7 @@ use Takemo101\SimplePropCheck\Preset\{
     NotNull,
     NotEmpty,
 };
-
+use Takemo101\SimplePropCheck\PropCheckFacade;
 
 /**
  * preset attribute test
@@ -287,9 +288,52 @@ class PresetTest extends TestCase
             1 => 1,
         ]));
     }
+
+
+    /**
+     * @test
+     */
+    public function verifyEach__OK()
+    {
+        $result = PropCheckFacade::check(new TestEach([
+            'Fb',
+            'Fa',
+        ]));
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function verifyEach__NG()
+    {
+        $result = PropCheckFacade::check(new TestEach([
+            '',
+            'Fa',
+        ]));
+
+        $this->assertFalse($result);
+    }
 }
 
 class TestValue
 {
     //
+}
+
+/**
+ * test object class for each
+ */
+class TestEach
+{
+    public function __construct(
+        #[Each([
+            new NotEmpty,
+            new Pattern('/F.*/'),
+        ])]
+        private array $data,
+    ) {
+        //
+    }
 }
