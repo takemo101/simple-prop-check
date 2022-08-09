@@ -82,7 +82,8 @@ The following Attribute class is available.
 | attribute class | detail |
 | - | - |
 | Takemo101\SimplePropCheck\Preset\String\URL | Validate URL string |
-| Takemo101\SimplePropCheck\Preset\String\URL | Validate IP string |
+| Takemo101\SimplePropCheck\Preset\String\Domain | Validate domain hostname string |
+| Takemo101\SimplePropCheck\Preset\String\IP | Validate ip string |
 | Takemo101\SimplePropCheck\Preset\String\Email | Validate the email address string |
 | Takemo101\SimplePropCheck\Preset\String\BetweenLength | Verify the number of characters |
 | Takemo101\SimplePropCheck\Preset\String\MaxLength | Verify the number of characters |

@@ -7,6 +7,7 @@ use Takemo101\SimplePropCheck\Preset\String\{
     URL,
     Email,
     BetweenLength,
+    Domain,
     IP,
     MaxLength,
     MinLength,
@@ -58,6 +59,12 @@ class PresetTest extends TestCase
         $this->assertTrue($v->verify('127.0.0.1'));
         $this->assertTrue($v->verify('::1'));
         $this->assertFalse($v->verify('33222:2222:1122:1'));
+
+        $v = new Domain();
+        $this->assertTrue($v->verify('aaa.gmail.com'));
+        $this->assertTrue($v->verify('aaa.co.jp'));
+        $this->assertFalse($v->verify('.ccc.co.jp'));
+        $this->assertFalse($v->verify('aaa.gmail.com/com'));
 
         $v = new BetweenLength(1, 7);
         $this->assertTrue($v->verify('abcdefg'));
