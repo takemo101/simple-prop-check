@@ -7,6 +7,8 @@ use Takemo101\SimplePropCheck\Preset\String\{
     URL,
     Email,
     BetweenLength,
+    Domain,
+    IP,
     MaxLength,
     MinLength,
     Pattern,
@@ -29,6 +31,7 @@ use Takemo101\SimplePropCheck\Preset\Numeric\{
     Positive,
 };
 use Takemo101\SimplePropCheck\Preset\{
+    Includes,
     NotNull,
     NotEmpty,
 };
@@ -51,6 +54,17 @@ class PresetTest extends TestCase
         $v = new Email();
         $this->assertTrue($v->verify('aaa@gmail.com'));
         $this->assertFalse($v->verify('http://aaa.com/page/'));
+
+        $v = new IP();
+        $this->assertTrue($v->verify('127.0.0.1'));
+        $this->assertTrue($v->verify('::1'));
+        $this->assertFalse($v->verify('33222:2222:1122:1'));
+
+        $v = new Domain();
+        $this->assertTrue($v->verify('aaa.gmail.com'));
+        $this->assertTrue($v->verify('aaa.co.jp'));
+        $this->assertFalse($v->verify('.ccc.co.jp'));
+        $this->assertFalse($v->verify('aaa.gmail.com/com'));
 
         $v = new BetweenLength(1, 7);
         $this->assertTrue($v->verify('abcdefg'));
@@ -180,6 +194,13 @@ class PresetTest extends TestCase
         $this->assertTrue($v->verify(""));
         $this->assertTrue($v->verify([]));
         $this->assertFalse($v->verify(null));
+
+        $v = new Includes(['a', 'b', 'c', 2]);
+        $this->assertTrue($v->verify('a'));
+        $this->assertTrue($v->verify('b'));
+        $this->assertTrue($v->verify(2));
+        $this->assertFalse($v->verify('d'));
+        $this->assertFalse($v->verify(3));
     }
 
     /**
