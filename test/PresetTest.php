@@ -49,6 +49,7 @@ class PresetTest extends TestCase
     {
         $v = new URL();
         $this->assertTrue($v->verify('http://aaa.com/page/'));
+        $this->assertTrue($v->verify('http://aaa.com/あいうえお/'));
         $this->assertFalse($v->verify('seraaa.com/page/'));
 
         $v = new Email();

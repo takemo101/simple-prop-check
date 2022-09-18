@@ -8,6 +8,34 @@ use Attribute;
 class URL extends StringValidatable
 {
     /**
+     * @var array<string,string>
+     */
+    private const URLEncodePairs = [
+        '%2D' => '-',
+        '%5F' => '_',
+        '%2E' => '.',
+        '%21' => '!',
+        '%7E' => '~',
+        '%2A' => '*',
+        '%27' => "'",
+        '%28' => '(',
+        '%29' => ')',
+        '%3B' => ';',
+        '%2C' => ',',
+        '%2F' => '/',
+        '%3F' => '?',
+        '%3A' => ':',
+        '%40' => '@',
+        '%26' => '&',
+        '%3D' => '=',
+        '%2B' => '+',
+        '%24' => '$',
+        '%23' => '#',
+        '%5B' => '[',
+        '%5D' => ']',
+    ];
+
+    /**
      * constructor
      *
      * @param string|null $message
@@ -26,7 +54,8 @@ class URL extends StringValidatable
      */
     public function verify($data): bool
     {
-        return (bool)filter_var($data, FILTER_VALIDATE_URL);
+        $encodedURL = $this->encode($data);
+        return (bool)filter_var($encodedURL, FILTER_VALIDATE_URL);
     }
 
     /**
@@ -37,5 +66,16 @@ class URL extends StringValidatable
     public function message(): string
     {
         return $this->message ?? "[:class::$:property] data is data is not a url";
+    }
+
+    /**
+     * encode url
+     *
+     * @param string $url
+     * @return string
+     */
+    public function encode(string $url): string
+    {
+        return strtr(rawurlencode($url), self::URLEncodePairs);
     }
 }
