@@ -3,17 +3,12 @@
 namespace Takemo101\SimplePropCheck\Support;
 
 use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
-use Takemo101\SimplePropCheck\{
-    PropAttribute,
-    Validatable,
-    Sanitizable,
-};
+use Takemo101\SimplePropCheck\PropAttribute;
 use Takemo101\SimplePropCheck\Support\ReflectionProcess\{
     ToExceptionFactory,
     ToSanitizeData,
     ToValidatables,
 };
-use ReflectionAttribute;
 use ReflectionProperty;
 use ReflectionClass;
 

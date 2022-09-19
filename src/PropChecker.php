@@ -8,6 +8,7 @@ use Takemo101\SimplePropCheck\Support\{
     ObjectToPropAttributes,
     ObjectToEffectObjects,
     MessageAnalyzer,
+    ObjectProperties,
 };
 use Throwable;
 
@@ -16,6 +17,11 @@ use Throwable;
  */
 final class PropChecker
 {
+    /**
+     * @var ObjectProperties
+     */
+    private readonly ObjectProperties $properties;
+
     /**
      * constructor
      *
@@ -27,7 +33,7 @@ final class PropChecker
         private readonly MessageAnalyzer $analyzer,
         private readonly ExceptionFactory $factory,
     ) {
-        //
+        $this->properties = ObjectProperties::fromObject($object);
     }
 
     /**
@@ -41,7 +47,7 @@ final class PropChecker
 
         foreach ($props as $prop) {
 
-            if ($prop->verify()) {
+            if ($prop->verify($this->properties)) {
                 return false;
             }
         }
@@ -85,7 +91,7 @@ final class PropChecker
 
         foreach ($props as $prop) {
 
-            if ($validatable = $prop->verify()) {
+            if ($validatable = $prop->verify($this->properties)) {
 
                 $placeholders = $validatable->placeholders();
                 $placeholders['property'] = $prop->getPropertyName();

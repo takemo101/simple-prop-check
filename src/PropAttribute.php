@@ -4,6 +4,7 @@ namespace Takemo101\SimplePropCheck;
 
 use InvalidArgumentException;
 use Takemo101\SimplePropCheck\Exception\ExceptionFactory;
+use Takemo101\SimplePropCheck\Support\ObjectProperties;
 
 /**
  * property attribute data class
@@ -85,9 +86,10 @@ final class PropAttribute
     /**
      * verify
      *
+     * @param ObjectProperties $properties
      * @return Validatable<mixed>|null
      */
-    public function verify(): ?Validatable
+    public function verify(ObjectProperties $properties): ?Validatable
     {
         foreach ($this->validatables as $validatable) {
 
@@ -96,6 +98,13 @@ final class PropAttribute
             }
 
             if (!$validatable->verify($this->data)) {
+                return $validatable;
+            }
+
+            if (
+                ($validatable instanceof PropertyComparable) &&
+                !$validatable->compare($this->data, $properties)
+            ) {
                 return $validatable;
             }
         }
