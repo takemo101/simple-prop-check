@@ -20,8 +20,8 @@ class Includes extends AbstractValidatable
      * @throws InvalidArgumentException
      */
     public function __construct(
-        private readonly array $includes,
-        private readonly ?string $message = null,
+        protected readonly array $includes,
+        protected readonly ?string $message = null,
     ) {
         if (empty($includes)) {
             throw new InvalidArgumentException('constructor argument error: includes is empty');
@@ -46,6 +46,6 @@ class Includes extends AbstractValidatable
      */
     public function message(): string
     {
-        return $this->message ?? '[:class::$:property] data not included';
+        return $this->message ?? '[:class::$:property] data is not included';
     }
 }
