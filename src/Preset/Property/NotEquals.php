@@ -9,15 +9,15 @@ use Takemo101\SimplePropCheck\Support\ObjectProperties;
 class NotEquals extends PropertyValidatable
 {
     /**
-     * validate the data of the property
+     * verify by comparing properties
      *
      * @param mixed $data
      * @param ObjectProperties $properties
      * @return boolean returns true if the data is OK
      */
-    public function verifyWithProperties($data, ObjectProperties $properties): bool
+    public function compare($data, ObjectProperties $properties): bool
     {
-        return $properties->find($this->name) !== $data;
+        return $properties->get($this->name) !== $data;
     }
 
     /**

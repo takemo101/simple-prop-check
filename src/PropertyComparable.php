@@ -5,19 +5,18 @@ namespace Takemo101\SimplePropCheck;
 use Takemo101\SimplePropCheck\Support\ObjectProperties;
 
 /**
- * verify with properties attribute interface
+ * verify by comparing properties attribute interface
  *
  * @template T
  */
-interface WithProperties
+interface PropertyComparable
 {
     /**
-     * validate the data of the property
-     * with property collection
+     * verify by comparing properties
      *
      * @param T $data
      * @param ObjectProperties $properties
      * @return boolean returns true if the data is OK
      */
-    public function verifyWithProperties($data, ObjectProperties $properties): bool;
+    public function compare($data, ObjectProperties $properties): bool;
 }

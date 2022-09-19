@@ -3,13 +3,13 @@
 namespace Takemo101\SimplePropCheck\Preset\Property;
 
 use Takemo101\SimplePropCheck\AbstractValidatable;
-use Takemo101\SimplePropCheck\WithProperties;
+use Takemo101\SimplePropCheck\PropertyComparable;
 
 /**
  * @extends AbstractValidatable<mixed>
- * @implements WithProperties<mixed>
+ * @implements PropertyComparable<mixed>
  */
-abstract class PropertyValidatable extends AbstractValidatable implements WithProperties
+abstract class PropertyValidatable extends AbstractValidatable implements PropertyComparable
 {
     /**
      * constructor

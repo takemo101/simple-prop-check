@@ -102,8 +102,8 @@ final class PropAttribute
             }
 
             if (
-                ($validatable instanceof WithProperties) &&
-                !$validatable->verifyWithProperties($this->data, $properties)
+                ($validatable instanceof PropertyComparable) &&
+                !$validatable->compare($this->data, $properties)
             ) {
                 return $validatable;
             }

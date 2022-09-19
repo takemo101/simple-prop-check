@@ -9,15 +9,15 @@ use Takemo101\SimplePropCheck\Support\ObjectProperties;
 class LessThanOrEqual extends PropertyValidatable
 {
     /**
-     * validate the data of the property
+     * verify by comparing properties
      *
      * @param mixed $data
      * @param ObjectProperties $properties
      * @return boolean returns true if the data is OK
      */
-    public function verifyWithProperties($data, ObjectProperties $properties): bool
+    public function compare($data, ObjectProperties $properties): bool
     {
-        return $data <= $properties->find($this->name);
+        return $data <= $properties->get($this->name);
     }
 
     /**

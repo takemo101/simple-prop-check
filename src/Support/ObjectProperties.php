@@ -34,13 +34,13 @@ final class ObjectProperties
     }
 
     /**
-     * find by property name
+     * get value by property name
      *
      * @param string $name
      * @return mixed
      * @throws InvalidArgumentException
      */
-    public function find(string $name): mixed
+    public function get(string $name): mixed
     {
         if (!array_key_exists($name, $this->properties)) {
             throw new InvalidArgumentException("property not found: {$name}");
