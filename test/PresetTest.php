@@ -30,12 +30,21 @@ use Takemo101\SimplePropCheck\Preset\Numeric\{
     Negative,
     Positive,
 };
+use Takemo101\SimplePropCheck\Preset\Property\{
+    LessThan,
+    LessThanOrEqual,
+    GreaterThan,
+    GreaterThanOrEqual,
+    NotEquals,
+};
 use Takemo101\SimplePropCheck\Preset\{
     Includes,
     NotNull,
     NotEmpty,
+    NotIncludes,
 };
 use Takemo101\SimplePropCheck\PropCheckFacade;
+use Takemo101\SimplePropCheck\Support\ObjectProperties;
 
 /**
  * preset attribute test
@@ -203,6 +212,13 @@ class PresetTest extends TestCase
         $this->assertTrue($v->verify(2));
         $this->assertFalse($v->verify('d'));
         $this->assertFalse($v->verify(3));
+
+        $v = new NotIncludes(['a', 'b', 'c', 2]);
+        $this->assertFalse($v->verify('a'));
+        $this->assertFalse($v->verify('b'));
+        $this->assertFalse($v->verify(2));
+        $this->assertTrue($v->verify('d'));
+        $this->assertTrue($v->verify(3));
     }
 
     /**
@@ -312,6 +328,56 @@ class PresetTest extends TestCase
         ]));
     }
 
+    /**
+     * @test
+     */
+    public function verifyWithProperty__OK()
+    {
+        $properties = new ObjectProperties([
+            'a' => 30,
+            'b' => 20,
+            'c' => 10,
+        ]);
+
+        $v = new LessThan('a');
+        $this->assertTrue($v->verifyWithProperties(29, $properties));
+        $this->assertFalse($v->verifyWithProperties(30, $properties));
+        $this->assertFalse($v->verifyWithProperties(31, $properties));
+
+        $v = new LessThanOrEqual('b');
+        $this->assertTrue($v->verifyWithProperties(19, $properties));
+        $this->assertTrue($v->verifyWithProperties(20, $properties));
+        $this->assertFalse($v->verifyWithProperties(21, $properties));
+
+
+        $v = new GreaterThan('c');
+        $this->assertFalse($v->verifyWithProperties(9, $properties));
+        $this->assertFalse($v->verifyWithProperties(10, $properties));
+        $this->assertTrue($v->verifyWithProperties(11, $properties));
+
+        $v = new GreaterThanOrEqual('a');
+        $this->assertFalse($v->verifyWithProperties(29, $properties));
+        $this->assertTrue($v->verifyWithProperties(30, $properties));
+        $this->assertTrue($v->verifyWithProperties(31, $properties));
+
+        $properties = new ObjectProperties([
+            'a' => 'a',
+            'b' => 'b',
+            'c' => 10,
+        ]);
+
+        $v = new NotEquals('a');
+        $this->assertFalse($v->verifyWithProperties('a', $properties));
+        $this->assertTrue($v->verifyWithProperties(10, $properties));
+
+        $v = new NotEquals('b');
+        $this->assertFalse($v->verifyWithProperties('b', $properties));
+        $this->assertTrue($v->verifyWithProperties(10, $properties));
+
+        $v = new NotEquals('c');
+        $this->assertTrue($v->verifyWithProperties('c', $properties));
+        $this->assertFalse($v->verifyWithProperties(10, $properties));
+    }
 
     /**
      * @test
