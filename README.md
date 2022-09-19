@@ -4,20 +4,25 @@
 [![PHPStan](https://github.com/takemo101/simple-prop-check/actions/workflows/phpstan.yml/badge.svg)](https://github.com/takemo101/simple-prop-check/actions/workflows/phpstan.yml)
 [![Validate Composer](https://github.com/takemo101/simple-prop-check/actions/workflows/composer.yml/badge.svg)](https://github.com/takemo101/simple-prop-check/actions/workflows/composer.yml)
 
-The Simple Prop Check is a simple property validator.   
+The Simple Prop Check is a simple property validator.\
 Enjoy!
 
 ## Installation
+
 Execute the following composer command.
+
 ```
 composer require takemo101/simple-prop-check
 ```
 
 ## How to use
+
 Please use as follows
 
 ### PHP Attribute
+
 Validate properties using PHP's Attribute feature.
+
 ```php
 <?php
 
@@ -74,43 +79,53 @@ $result = PropCheckFacade::check($test); // $result == false
 
 //　By passing an object to the exception method, the validation result will be returned as an exception.
 PropCheckFacade::exception($test); // throw exception
-
 ```
+
 ### Property Attribute provided
+
 The following Attribute class is available.
 
-| attribute class | detail |
-| - | - |
-| Takemo101\SimplePropCheck\Preset\String\URL | Validate URL string |
-| Takemo101\SimplePropCheck\Preset\String\Domain | Validate domain hostname string |
-| Takemo101\SimplePropCheck\Preset\String\IP | Validate ip string |
-| Takemo101\SimplePropCheck\Preset\String\Email | Validate the email address string |
-| Takemo101\SimplePropCheck\Preset\String\BetweenLength | Verify the number of characters |
-| Takemo101\SimplePropCheck\Preset\String\MaxLength | Verify the number of characters |
-| Takemo101\SimplePropCheck\Preset\String\MinLength | Verify the number of characters |
-| Takemo101\SimplePropCheck\Preset\String\Pattern | Validate regular expressions |
-| Takemo101\SimplePropCheck\Preset\Array\BetweenSize | Validate the size of the array |
-| Takemo101\SimplePropCheck\Preset\Array\MaxSize | Validate the size of the array |
-| Takemo101\SimplePropCheck\Preset\Array\MinSize | Validate the size of the array |
-| Takemo101\SimplePropCheck\Preset\Array\Unique | Verify array duplication |
-| Takemo101\SimplePropCheck\Preset\Array\TypedKey | Validate the key type of the array |
-| Takemo101\SimplePropCheck\Preset\Array\TypedValue | Validate the value type of the array |
-| Takemo101\SimplePropCheck\Preset\Array\TypedMap | Validate array key and value types |
-| Takemo101\SimplePropCheck\Preset\Array\Each | Validate the array of each data |
-| Takemo101\SimplePropCheck\Preset\Numeric\Between | Verify the range of numbers |
-| Takemo101\SimplePropCheck\Preset\Numeric\Max | Verify the range of numbers |
-| Takemo101\SimplePropCheck\Preset\Numeric\Min | Verify the range of numbers |
-| Takemo101\SimplePropCheck\Preset\Numeric\Negative | Validate negative numbers |
-| Takemo101\SimplePropCheck\Preset\Numeric\Positive | Validate positive numbers |
-| Takemo101\SimplePropCheck\Preset\Includes | Validate if value is included |
-| Takemo101\SimplePropCheck\Preset\NotNull | Validate null value |
-| Takemo101\SimplePropCheck\Preset\NotEmpty | Validate empty value |
+| attribute class                                              | detail                                                    |
+| ------------------------------------------------------------ | --------------------------------------------------------- |
+| Takemo101\SimplePropCheck\Preset\String\URL                  | Validate URL string                                       |
+| Takemo101\SimplePropCheck\Preset\String\Domain               | Validate domain hostname string                           |
+| Takemo101\SimplePropCheck\Preset\String\IP                   | Validate ip string                                        |
+| Takemo101\SimplePropCheck\Preset\String\Email                | Validate the email address string                         |
+| Takemo101\SimplePropCheck\Preset\String\BetweenLength        | Verify the number of characters                           |
+| Takemo101\SimplePropCheck\Preset\String\MaxLength            | Verify the number of characters                           |
+| Takemo101\SimplePropCheck\Preset\String\MinLength            | Verify the number of characters                           |
+| Takemo101\SimplePropCheck\Preset\String\Pattern              | Validate regular expressions                              |
+| Takemo101\SimplePropCheck\Preset\Array\BetweenSize           | Validate the size of the array                            |
+| Takemo101\SimplePropCheck\Preset\Array\MaxSize               | Validate the size of the array                            |
+| Takemo101\SimplePropCheck\Preset\Array\MinSize               | Validate the size of the array                            |
+| Takemo101\SimplePropCheck\Preset\Array\Unique                | Verify array duplication                                  |
+| Takemo101\SimplePropCheck\Preset\Array\TypedKey              | Validate the key type of the array                        |
+| Takemo101\SimplePropCheck\Preset\Array\TypedValue            | Validate the value type of the array                      |
+| Takemo101\SimplePropCheck\Preset\Array\TypedMap              | Validate array key and value types                        |
+| Takemo101\SimplePropCheck\Preset\Array\Each                  | Validate the array of each data                           |
+| Takemo101\SimplePropCheck\Preset\Numeric\Between             | Verify the range of numbers                               |
+| Takemo101\SimplePropCheck\Preset\Numeric\Max                 | Verify the range of numbers                               |
+| Takemo101\SimplePropCheck\Preset\Numeric\Min                 | Verify the range of numbers                               |
+| Takemo101\SimplePropCheck\Preset\Numeric\Negative            | Validate negative numbers                                 |
+| Takemo101\SimplePropCheck\Preset\Numeric\Positive            | Validate positive numbers                                 |
+| Takemo101\SimplePropCheck\Preset\Property\GreaterThan        | Validate value is greater than other property             |
+| Takemo101\SimplePropCheck\Preset\Property\GreaterThanOrEqual | Validate value is greater than other property             |
+| Takemo101\SimplePropCheck\Preset\Property\LessThan           | Validate value is less than other property                |
+| Takemo101\SimplePropCheck\Preset\Property\LessThanOrEqual    | Validate value is less than other property                |
+| Takemo101\SimplePropCheck\Preset\Property\NotEquals          | Validate that other properties and values ​​are not equal |
+| Takemo101\SimplePropCheck\Preset\Includes                    | Validate if value is included                             |
+| Takemo101\SimplePropCheck\Preset\NotIncludes                 | Validate if value is not included                         |
+| Takemo101\SimplePropCheck\Preset\NotNull                     | Validate null value                                       |
+| Takemo101\SimplePropCheck\Preset\NotEmpty                    | Validate empty value                                      |
 
 ## Customize
+
 You can customize the Attribute class etc.
 
 ### How to customize Property Attribute
-First, create an Attribute class that implements AbstractValidatable or Validatable.
+
+First, create an Attribute class that implements AbstractValidatable or
+Validatable.
 
 ```php
 <?php
@@ -186,7 +201,9 @@ class MatchText extends AbstractValidatable
 
 }
 ```
+
 Use the created Attribute class as follows.
+
 ```php
 <?php
 
@@ -207,11 +224,12 @@ $result = PropCheckFacade::check($test); // $result == false
 
 $test = new Test('hello');
 $result = PropCheckFacade::check($test); // $result == true
-
 ```
 
 ### How to customize Exception Attribute
-First, create an Attribute class that implements AbstractException or ExceptionFactory.
+
+First, create an Attribute class that implements AbstractException or
+ExceptionFactory.
 
 ```php
 <?php
@@ -239,7 +257,9 @@ class TestException extends AbstractException
     }
 }
 ```
+
 Use the created Attribute class as follows.
+
 ```php
 <?php
 
@@ -259,11 +279,13 @@ class Test
 
 $test = new Test('hi');
 PropCheckFacade::exception($test); // throw LogicException
-
 ```
 
 ## About the Effect class
-The Effect attribute allows you to apply a validation effect to the property of interest.
+
+The Effect attribute allows you to apply a validation effect to the property of
+interest.
+
 ```php
 <?php
 
@@ -326,10 +348,12 @@ $first = new First(
 $result = PropCheckFacade::check($first); // $result == false
 
 PropCheckFacade::exception($first); // throw exception
-
 ```
+
 ## About the AfterCall class
-The AfterCall attribute class allows you to set the method to be called after validating the value of the property.
+
+The AfterCall attribute class allows you to set the method to be called after
+validating the value of the property.
 
 ```php
 <?php
@@ -365,5 +389,4 @@ $call = new CallClass('');
 
 // If the value validation fails, the specified method will not be executed.
 $result = PropCheckFacade::check($call); // $result == false
-
 ```
